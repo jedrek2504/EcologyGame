@@ -1,4 +1,5 @@
 # EcologyGame
  IOAD2
 ## Project modules
-- User management
+- User management module
+- Forum module
