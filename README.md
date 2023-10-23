@@ -1,5 +1,5 @@
 # EcologyGame (IOAD 2)
-## Project modules - 16.10.2023
+## Project modules
 # User management module
 ### Module APIs
 - User authentication interface
