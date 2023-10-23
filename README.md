@@ -1,6 +1,7 @@
 # EcologyGame (IOAD 2)
 ## Project modules - 16.10.2023
 # User management module
+### Module APIs
 - User authentication interface
     - Create, modify, delete account
     - Sign in/sign out user ===> unique session token
@@ -14,7 +15,8 @@
     - multicast user action
 
 - Mail management interface
-        
+
+### 
 # Forum module
 # Leaderboard module (?)
 # Core module / game module
