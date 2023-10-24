@@ -16,7 +16,14 @@
 
 - Mail management interface
 
-### 
+### [View full documentation of the User Management Module (UMM)](https://github.com/jedrek2504/EcologyGame/blob/main/user_management/README.md)
 # Forum module
+### Module APIs
+### [View full documentation of the Forum Module (FM)](https://github.com/jedrek2504/EcologyGame/blob/main/forum/README.md)
 # Leaderboard module (?)
+### Module APIs
+### [View full documentation of the Leaderboard Module (LM)](https://github.com/jedrek2504/EcologyGame/blob/main/leaderboard/README.md)
+### Module APIs
 # Core module / game module
+### Module APIs
+### [View full documentation of the Core Module/Game Module (CM)](https://github.com/jedrek2504/EcologyGame/blob/main/core/README.md)
