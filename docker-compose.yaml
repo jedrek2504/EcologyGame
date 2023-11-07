@@ -1,0 +1,31 @@
+version: '3'
+services:
+  ecoserver:
+    build: 
+      context: .
+      args:
+        expose_port: ${ECOSERVER_IN_PORT}
+
+    image: ecocloud.azurecr.io/ecogame-cloud
+    domainname: eco-greengame
+    #environment:
+    #  DB_SCHEMA: postgres
+    #  DB_USER: postgres
+    #  DB_PASSWORD: postgres
+    #  DB_HOST: postgres
+    #depends_on:
+      #- postgres
+      #- alpine
+    ports:
+      - "${ECOSERVER_OUT_PORT}:${ECOSERVER_IN_PORT}"
+      #- 3000:3000
+    volumes: 
+      - eco-db:/ecopers
+        
+volumes:
+  eco-db:
+    #driver: azure_file
+    #driver_opts:
+    #  share_name: ecoacishare
+    #  storage_account_name: ecovolumesstorage1
+

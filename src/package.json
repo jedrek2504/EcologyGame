@@ -1,0 +1,33 @@
+{
+  "name": "src",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "pm2": "pm2 start processes.json --no-daemon",
+    "start": "node ./bin/www",
+    "test": "jest",
+    "migrate": "node ./bin/migrate.js"
+  },
+  "dependencies": {
+    "again": "^0.0.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "formidable": "^3.5.1",
+    "fs": "^0.0.1-security",
+    "morgan": "~1.9.1",
+    "path": "^0.12.7",
+    "pg": "^8.11.3",
+    "pm2": "^5.3.0",
+    "sequelize": "6.33.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

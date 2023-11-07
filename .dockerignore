@@ -1,0 +1,8 @@
+src/node_modules
+npm-debug.log
+tools
+manuals
+.git
+.gitignore
+src/node_modules
+src/bin/.env
