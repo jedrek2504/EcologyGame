@@ -27,7 +27,7 @@ For MANUAL ---> scroll down
 ### Module APIs
 # Core module / game module
 ### Module APIs
-### [View full documentation of the Core Module/Game Module (CM)](https://github.com/jedrek2504/EcologyGame/blob/main/game_core/README.md)
+### [View full documentation of the Core Module/Game Module (GM)](https://github.com/jedrek2504/EcologyGame/blob/main/game_core/README.md)
 
 # EcologyGame dev guide
 
