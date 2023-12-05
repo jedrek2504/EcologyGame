@@ -9,7 +9,7 @@ var expressLayouts = require('express-ejs-layouts');
 
 var indexRouter = require('./routes/index');
 
-const ummAPI = require('./modules/user_management/routes/api.js');
+//const ummAPI = require('./modules/user_management/routes/api.js');
 const ummUsers = require('./modules/user_management/routes/users.js');
 
 var app = express();
@@ -29,6 +29,6 @@ app.use("/umm/users", ummUsers.router);
 app.use(ummUsers.loginGuard);
 
 app.use('/', indexRouter);
-app.use("/umm/api", ummAPI.router);
+//app.use("/umm/api", ummAPI.router);
 
 module.exports = app;
