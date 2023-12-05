@@ -28,16 +28,37 @@ const sequelize = new Sequelize({
   });
 //const sequelize = new Sequelize('sqlite::memory:');
 const Person = sequelize.define('Person', {
+    user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+		unique: true,
+        primaryKey: true,
+        autoIncrement: true
+    },
     username: {
         type: Sequelize.STRING,
         allowNull: false,
-		primaryKey: true,
 		unique: true
     },
     password: {
         type: Sequelize.STRING,
         allowNull: false
     },
+    score: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+    },
+    is_forum_contributor: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }
 });
 
 const LoginInstance = sequelize.define("LoginInstance", {
@@ -47,12 +68,14 @@ const LoginInstance = sequelize.define("LoginInstance", {
 		unique: true,
 		primaryKey: true,
 	},
-	user: {
+	//user: {
+    user_id: {
 		type: Sequelize.STRING,
 		allowNull: false,
 		references: {
 			model: Person,
-			key: "username",
+			//key: "username",
+            key: "user_id"
 		},
 		onUpdate: "CASCADE",
 		onDelete: "CASCADE",
