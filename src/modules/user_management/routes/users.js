@@ -14,24 +14,39 @@ router.post("/register", async (req, res, next) => {
 				username: fields["username"][0],
 				password: fields["password"][0],
 			});
-			res.redirect("/users/login");
+			res.redirect("/umm/users/login");
+			res.end();//
 		} else {
-			res.redirect("/users/register");
+			res.locals.error = "Trying to create existing user";
+			res.render("register.html", { title: "Registration" });
 			console.log("Trying to create existing user");
 		}
 	} else {
-		res.redirect("/users/register");
+		res.locals.error = "One of needed fields was missing";
+		res.render("register.html", { title: "Registration" });
 		console.log("Register: One of needed fields was missing");
 	}
-	res.end();
 })
 
-router.get("/register", (req, res, next) => {
-	res.render("register.html", { title: "Registration" });
+router.get("/register", async (req, res, next) => {
+	if ((await checkLogin(req)).logged) {
+		res.redirect("/");
+		res.end();
+	}
+	else {
+		res.render("register.html", { title: "Registration" });
+	}
 })
 
-router.get("/login", (req, res, next) => {
-	res.render("login.html", { title: "Registration" });
+router.get("/login", async (req, res, next) => {
+    console.log("ROUTER LOGIN"); //
+	if ((await checkLogin(req)).logged) {
+		res.redirect("/");
+		res.end();
+	}
+	else {
+		res.render("login.html", { title: "Login" });
+	}
 })
 
 router.get("/logout", async (req, res, next) => {
@@ -55,6 +70,11 @@ router.post("/login", async (req, res, next) => {
 				do {
 					generatedId = utils.makeid(32);
 				} while (await db.LoginInstance.findByPk(generatedId));
+				await db.LoginInstance.destroy({
+					where: {
+					  user: user.username
+					}
+				  });
 				await db.LoginInstance.create({
 					login_id: generatedId,
 					user: user.username,
@@ -63,20 +83,56 @@ router.post("/login", async (req, res, next) => {
 					maxAge: 86400000 // one day
 				});
 				res.redirect("/");
+				res.end();
 			} else {
-				res.redirect("/umm/users/login");
-				console.log(`Incorrect user password for {user.username}`);
+				res.locals.error = "Incorrect password!";
+				res.render("login.html", { title: "Login" });
+				console.log(`Incorrect user password for ${user.username}`);
 			}
 		} else {
-			res.redirect("/umm/users/register");
-			console.log("Trying to create existing user");
+			res.locals.error = `Username "${fields['username']}" does not exist!`;
+			res.render("login.html", { title: "Login" });
+			console.log(`User "${fields['username']}" does not exist`);
 		}
 	} else {
-		res.redirect("/umm/users/login");
+		res.locals.error = "One of needed fields was missing";
+		res.render("login.html", { title: "Login" });
 		console.log("Login: One of needed fields was missing");
 	}
-	res.end();
 })
+
+
+
+/**
+ *  @param {express.Request} req 
+ */
+async function checkLogin(req) {
+	return new Promise(async (resolve,reject) => {
+		if (req.cookies["login_id"]) {
+			const id = req.cookies["login_id"];
+            console.log("BEFORE findByPk"); //
+			const login = await db.LoginInstance.findByPk(id);
+            console.log("AFTER findByPk"); // 
+            console.log()
+			if (login) {
+				resolve({ logged: true });
+			}
+			else {
+				resolve({ logged: false });
+			}
+		}
+		else {
+			resolve({ logged: false });
+		}
+	});
+}
+
+/**
+ *  @param {express.Request} req 
+ */
+async function checkLoginSynchronous(req) {
+	return await checkLogin(req);
+}
 
 /**
  * 
@@ -84,23 +140,19 @@ router.post("/login", async (req, res, next) => {
  * @param {express.Response} res 
  * @param {express.NextFunction} next 
  */
-async function checkLogin(req, res, next) {
-	if (req.cookies["login_id"]) {
-		const id = req.cookies["login_id"];
-		const login = await db.LoginInstance.findByPk(id);
-		if (!login) {
-			res.redirect("/umm/users/login");
-			res.end();
-		} else {
-			next();
-		}
-		return
+async function loginGuard(req, res, next) {
+	if((await checkLogin(req)).logged) {
+		next();
 	}
-	res.redirect("/umm/users/login");
-	res.end();
+	else {
+		res.redirect("/umm/users/login");
+		res.end();
+	}
 }
 
 module.exports = {
 	router: router,
-	checkLogin: checkLogin
+	loginGuard: loginGuard,
+	checkLogin: checkLogin,
+	checkLoginSynchronous: checkLoginSynchronous
 };

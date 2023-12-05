@@ -25,7 +25,8 @@ app.set("views", "./public");
 app.set('view engine', 'ejs');
 
 app.use("/umm/users", ummUsers.router);
-app.use(ummUsers.checkLogin);
+//app.use(ummUsers.checkLogin);
+app.use(ummUsers.loginGuard);
 
 app.use('/', indexRouter);
 app.use("/umm/api", ummAPI.router);
