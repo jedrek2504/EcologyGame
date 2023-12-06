@@ -1,0 +1,9 @@
+enum EventType {
+    USER_LOGIN,
+    USER_LOGOUT,
+    USER_EXIT,
+    USERNAME_CHANGE,
+    USER_NO_DISTURB_CHANGE,
+    USER_CREATED,
+    USER_DELETED
+}
