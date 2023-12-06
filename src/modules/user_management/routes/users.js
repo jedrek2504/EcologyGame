@@ -5,30 +5,22 @@ const formidable = require('formidable');
 
 const router = express.Router();
 
+//import UserManager from '../model/UserManager.ts'
+const UserManager = require('../model/UserManager.ts');
+
 router.post("/register", async (req, res, next) => {
 	const form = new formidable.IncomingForm();
 	const [fields, files] = await form.parse(req); //Modern JavaScript is hell
 	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0] && fields["email"] && fields["email"][0]) {
-		// if (await db.Person.findByPk(fields["username"][0])) {
-        if (await db.Person.findOne({where: {username: fields["username"][0]}})) {
-            res.locals.error = "Trying to create existing user";
+        
+        UserManager.createUser(fields["username"], fields["email"], fields["password"]).then((u)=>{
+            res.redirect("/umm/users/login");
+			res.end();
+        }).catch((reason)=>{
+            res.locals.error = reason;
 			res.render("register.html", { title: "Registration" });
-			console.log("Register: Trying to create existing user");
-        }
-        else if (await db.Person.findOne({where: {email: fields["email"][0]}})) {
-            res.locals.error = "Email is already taken";
-            res.render("register.html", { title: "Registration" });
-			console.log("Register: Trying to reuse an email address");
-        }
-        else {
-			db.Person.create({
-				username: fields["username"][0],
-				password: fields["password"][0],
-                email: fields["email"][0]
-			});
-			res.redirect("/umm/users/login");
-			res.end();//
-		}
+			console.log(`Register: ${reason}`);
+        });
 	} else {
 		res.locals.error = "One of needed fields was missing";
 		res.render("register.html", { title: "Registration" });
