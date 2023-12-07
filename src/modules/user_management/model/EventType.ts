@@ -1,4 +1,4 @@
-enum EventType {
+export enum EventType {
     USER_LOGIN,
     USER_LOGOUT,
     USER_EXIT,

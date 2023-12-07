@@ -1,9 +1,13 @@
-"use strict";
-//import db from "../database.js";
-const db = require("../database.js");
+//"use strict";
+import db from "../database.js";
+// const db = require("../database.js");
+import { IntermoduleUserManager } from "./IntermoduleUserManager.js";
+import { User } from "./User.js";
+import { UMMEventFilter } from "./UMMEventFilter.js";
+import {EventStream} from "../lib/EventStream.js";
 
-class UserManager implements IntermoduleUserManager {
-    getUsers(filtrator: (user : User) => boolean) : User[] {
+export class UserManager implements IntermoduleUserManager {
+    getUsers(filtrator : (user : User) => boolean) : User[] {
         return [];
     }
     createUser(username : string, 

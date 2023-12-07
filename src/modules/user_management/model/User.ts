@@ -1,4 +1,6 @@
-class User implements GameUser, ForumUser {
+import { GameUser } from "./GameUser.js"
+import {ForumUser} from "./ForumUser.js"
+export class User implements GameUser, ForumUser {
     getScore() : number {
         return 0;
     }

@@ -1,11 +1,11 @@
-class EventStreamEvent extends Event {
+export class EventStreamEvent extends Event {
     public data: any
     constructor ({ type, data } : {type: string, data: any}) {
       super(type)
       this.data = data
     }
 }
-class EventStream extends EventTarget {
+export class EventStream extends EventTarget {
     private static _instance: EventStream
     public static getInstance () : EventStream {
       if (!this._instance) this._instance = new EventStream()

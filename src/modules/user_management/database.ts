@@ -1,6 +1,10 @@
 
-const Sequelize = require('sequelize');
-const sqlite3 = require('sqlite3');
+//const Sequelize = require('sequelize');
+//const sqlite3 = require('sqlite3');
+
+import {Sequelize, DataTypes} from 'sequelize';
+import sqlite3 from 'sqlite3';
+
 /*const sequelize = new Sequelize(process.env.DB_SCHEMA || 'postgres',
                                 process.env.DB_USER || 'postgres',
                                 process.env.DB_PASSWORD || '',
@@ -29,33 +33,33 @@ const sequelize = new Sequelize({
 //const sequelize = new Sequelize('sqlite::memory:');
 const Person = sequelize.define('Person', {
     user_id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
 		unique: true,
         primaryKey: true,
         autoIncrement: true
     },
     username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
 		unique: true
     },
     password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false
     },
     score: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
     },
     email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
     is_forum_contributor: {
-        type: Sequelize.BOOLEAN,
+        type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
     }
@@ -63,14 +67,14 @@ const Person = sequelize.define('Person', {
 
 const LoginInstance = sequelize.define("LoginInstance", {
 	login_id: {
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
 		primaryKey: true,
 	},
 	//user: {
     user_id: {
-		type: Sequelize.STRING,
+		type: DataTypes.STRING,
 		allowNull: false,
 		references: {
 			model: Person,
@@ -82,9 +86,18 @@ const LoginInstance = sequelize.define("LoginInstance", {
 	}
 })
 
-module.exports = {
+
+
+/* module.exports = {
     sequelize: sequelize,
     Person: Person,
 	LoginInstance: LoginInstance
+    //name: name //hide/delete?
+}; */
+
+export default {
+    sequelize: sequelize,
+    Person: Person,
+    LoginInstance: LoginInstance
     //name: name //hide/delete?
 };

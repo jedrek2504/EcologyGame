@@ -1,22 +1,29 @@
-const express = require('express');
-const db = require("../database.js");
-const utils = require("../utils.js");
-const formidable = require('formidable');
-
+////const express = require('express');
+import express from 'express';
+////const db = require("../database.js");//.cjs
+import db from "../database.js";
+////const utils = require("../utils.cjs");
+import utils from "../utils.js";
+////const formidable = require('formidable');
+import formidable from 'formidable';
 const router = express.Router();
 
-//import UserManager from '../model/UserManager.ts'
-const UserManager = require('../model/UserManager.ts');
+//import {UserManager} from '../model/UserManager.js'
+import UserManager from '../model/UserManager.js'
+//const UserManager = require('../model/UserManager.js');
+//const UserManager = import('../model/UserManager.js');
+//import UserManager from '../model/UserManager.js';
 
-router.post("/register", async (req, res, next) => {
-	const form = new formidable.IncomingForm();
+router.post("/register", async (req: any, res: any, next: any) => {
+	////const form = new formidable.IncomingForm();
+	const form = formidable();
 	const [fields, files] = await form.parse(req); //Modern JavaScript is hell
 	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0] && fields["email"] && fields["email"][0]) {
         
-        UserManager.createUser(fields["username"], fields["email"], fields["password"]).then((u)=>{
+        UserManager.createUser(fields["username"][0], fields["email"][0], fields["password"][0]).then((u : any)=>{
             res.redirect("/umm/users/login");
 			res.end();
-        }).catch((reason)=>{
+        }).catch((reason : any)=>{
             res.locals.error = reason;
 			res.render("register.html", { title: "Registration" });
 			console.log(`Register: ${reason}`);
@@ -28,7 +35,7 @@ router.post("/register", async (req, res, next) => {
 	}
 })
 
-router.get("/register", async (req, res, next) => {
+router.get("/register", async (req : any, res : any, next : any) => {
 	if ((await checkLogin(req)).logged) {
 		res.redirect("/");
 		res.end();
@@ -38,7 +45,7 @@ router.get("/register", async (req, res, next) => {
 	}
 })
 
-router.get("/login", async (req, res, next) => {
+router.get("/login", async (req : any, res : any, next : any) => {
     console.log("ROUTER LOGIN"); //
 	if ((await checkLogin(req)).logged) {
 		res.redirect("/");
@@ -49,7 +56,7 @@ router.get("/login", async (req, res, next) => {
 	}
 })
 
-router.get("/logout", async (req, res, next) => {
+router.get("/logout", async (req : any, res : any, next : any) => {
 	const instance = await db.LoginInstance.findByPk(req.cookies["login_id"]);
 	if (instance) {
 		await instance.destroy();
@@ -59,12 +66,13 @@ router.get("/logout", async (req, res, next) => {
 	res.end();
 })
 
-router.post("/login", async (req, res, next) => {
-	const form = new formidable.IncomingForm();
+router.post("/login", async (req : any, res : any, next : any) => {
+	////const form = new formidable.IncomingForm();
+	const form = formidable();
 	const [fields, files] = await form.parse(req);
 	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0]) {
 		//const user = await db.Person.findByPk(fields["username"][0]);
-        const user = await db.Person.findOne({where: {username: fields["username"][0]}});
+        const user : any = await db.Person.findOne({where: {username: fields["username"][0]}});
 		if (user) {
 			if (user.password == fields["password"][0]) {
 				let generatedId;
@@ -109,8 +117,8 @@ router.post("/login", async (req, res, next) => {
 /**
  *  @param {express.Request} req 
  */
-async function checkLogin(req) {
-	return new Promise(async (resolve,reject) => {
+async function checkLogin(req : any) {
+	return new Promise<any>(async (resolve : any ,reject : any) => {
 		if (req.cookies["login_id"]) {
 			const id = req.cookies["login_id"];
             console.log("BEFORE findByPk"); //
@@ -133,7 +141,7 @@ async function checkLogin(req) {
 /**
  *  @param {express.Request} req 
  */
-async function checkLoginSynchronous(req) {
+async function checkLoginSynchronous(req : any) {
 	return await checkLogin(req);
 }
 
@@ -143,7 +151,7 @@ async function checkLoginSynchronous(req) {
  * @param {express.Response} res 
  * @param {express.NextFunction} next 
  */
-async function loginGuard(req, res, next) {
+async function loginGuard(req : any, res : any, next : any) {
 	if((await checkLogin(req)).logged) {
 		next();
 	}
@@ -153,9 +161,16 @@ async function loginGuard(req, res, next) {
 	}
 }
 
-module.exports = {
+/*module.exports = {
 	router: router,
 	loginGuard: loginGuard,
 	checkLogin: checkLogin,
 	checkLoginSynchronous: checkLoginSynchronous
-};
+};*/
+
+export default {
+	router: router,
+	loginGuard: loginGuard,
+	checkLogin: checkLogin,
+	checkLoginSynchronous: checkLoginSynchronous
+}

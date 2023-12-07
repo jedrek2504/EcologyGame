@@ -1,8 +1,10 @@
-class Relationship {
+import {User} from "./User.js"
+export class Relationship {
     public firstUser : User;
     public secondUser : User;
-    constructor() {
-        
+    constructor(firstUser : User, secondUser : User) {
+        this.firstUser = firstUser;
+        this.secondUser = secondUser;
     }
     destroy() : boolean {
         return false;

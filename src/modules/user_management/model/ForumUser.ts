@@ -1,4 +1,4 @@
-interface ForumUser {
+export interface ForumUser {
     getUsername() : string,
     getEmail() : string,
     getId() : string,

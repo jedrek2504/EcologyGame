@@ -1,4 +1,6 @@
-class ForumModuleMediator implements ForumMediator {
+import {ForumMediator} from './ForumMediator.js'
+import {ForumUser} from './ForumUser.js'
+export class ForumModuleMediator implements ForumMediator {
     registerPost(user : ForumUser, post : Object) : boolean {
         return false;
     }

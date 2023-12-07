@@ -1,4 +1,5 @@
-class UMMEventFilter {
+import {EventType} from './EventType.js'
+export class UMMEventFilter {
     private eventTypes : EventType[];
     constructor() {
         this.eventTypes = [];

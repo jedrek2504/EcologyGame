@@ -5,12 +5,35 @@
  */
 
 //require('dotenv').config({ path: `${__dirname}/../../.env` }); 
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+////const path = require('path')
+import path from 'path'
+////require('dotenv').config({ path: path.resolve(__dirname, './.env') })
+import dotenv from 'dotenv'
 
-var app = require('../app');
-var debug = require('debug')('src:server');
-var http = require('http');
+
+/*import { fileURLToPath } from 'url';//
+import { dirname } from 'path';//
+const __filename = fileURLToPath(import.meta.url);//
+const __dirname = dirname(__filename);//
+dotenv.config({ path: path.resolve(__dirname, './.env') })*/
+//dotenv.config({ path: path.resolve(path.dirname(process.argv[1]), './.env') });
+
+dotenv.config({ path: path.resolve(path.dirname(new URL(import.meta.url).pathname), './.env') });
+/*(async () => {
+  try {
+    await dotenv.config({ path: path.resolve(path.dirname(new URL(import.meta.url).pathname), './.env') });
+  } catch (error) {
+    console.error('Error loading dotenv:', error);
+  }
+})();*/
+
+////var app = require('../app.js');
+import app from '../app.js'
+////var debug = require('debug')('src:server');
+import debug from 'debug'
+debug('src:server')
+////var http = require('http');
+import http from 'http'
 
 /**
  * Get port from environment and store in Express.
@@ -24,6 +47,7 @@ else {
 }
 var port = normalizePort(process.env.PORT || '80');
 app.set('port', port);
+console.log(`APP.GET port=${app.get('port')}`);
 
 /**
  * Create HTTP server.
@@ -43,7 +67,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalizePort(val : any) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -63,7 +87,7 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError(error : any) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -93,8 +117,12 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
+  if (addr) {
+    var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    debug('Listening on ' + bind);
+    console.log('Listening on ' + bind);
+  }
+  //console.log('Null address!');
 }
