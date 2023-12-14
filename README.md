@@ -1,5 +1,5 @@
 # EcologyGame (IOAD 2)
-For MANUAL ---> scroll down
+
 ## Project modules
 # User management module
 ### Module APIs
