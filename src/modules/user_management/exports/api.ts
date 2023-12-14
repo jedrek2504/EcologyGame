@@ -16,40 +16,46 @@ class IntermoduleCommons {
     private static _instance: IntermoduleCommons
     public static getInstance () : IntermoduleCommons {
       if (!this._instance) {
-        this._instance = new IntermoduleCommons()
-        IntermoduleCommons.IntermoduleUserManager = UserManager.getInstance();
-        IntermoduleCommons.IntermoduleUserRelationshipManager = UserRelationshipManager.getInstance();
-        IntermoduleCommons.IntermoduleNotificationManager = NotificationManager.getInstance();
+        this._instance = new IntermoduleCommons(UserManager.getInstance(), UserRelationshipManager.getInstance(), NotificationManager.getInstance())
       }
       return this._instance
     }
 
-    public static IntermoduleUserManager : IntermoduleUserManager;
-    public static IntermoduleUserRelationshipManager : IntermoduleUserRelationshipManager;
-    public static IntermoduleNotificationManager : IntermoduleNotificationManager;
+    private constructor(IntermoduleUserManager : IntermoduleUserManager, IntermoduleUserRelationshipManager : IntermoduleUserRelationshipManager, IntermoduleNotificationManager : IntermoduleNotificationManager) {
+        this.IntermoduleUserManager = IntermoduleUserManager;
+        this.IntermoduleUserRelationshipManager = IntermoduleUserRelationshipManager;
+        this.IntermoduleNotificationManager = IntermoduleNotificationManager;
+    }
+
+    public IntermoduleUserManager : IntermoduleUserManager;
+    public IntermoduleUserRelationshipManager : IntermoduleUserRelationshipManager;
+    public IntermoduleNotificationManager : IntermoduleNotificationManager;
 }
 
 class UMM {
     private static _instance: UMM
     public static getInstance () : UMM {
       if (!this._instance) {
-        this._instance = new UMM()
-        UMM.IntermoduleCommons = IntermoduleCommons.getInstance();
-        UMM.ForumMediator = ForumModuleMediator.getInstance();
+        this._instance = new UMM(IntermoduleCommons.getInstance(), ForumModuleMediator.getInstance())
       }
       return this._instance
     }
 
-    public static IntermoduleCommons : IntermoduleCommons;
-    public static ForumMediator : ForumMediator;
+    private constructor(IntermoduleCommons : IntermoduleCommons, ForumMediator : ForumMediator) {
+        this.IntermoduleCommons = IntermoduleCommons
+        this.ForumMediator = ForumMediator
+    }
 
-    public static LeaderboardUser() : LeaderboardUser {
+    public IntermoduleCommons : IntermoduleCommons;
+    public ForumMediator : ForumMediator;
+
+    public LeaderboardUser() : LeaderboardUser {
         return User.getInstance();
     }
-    public static GameUser() : GameUser {
+    public GameUser() : GameUser {
         return User.getInstance();
     }
-    public static ForumUser() : ForumUser {
+    public ForumUser() : ForumUser {
         return User.getInstance();
     }
 }
