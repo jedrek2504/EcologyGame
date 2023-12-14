@@ -26,4 +26,4 @@ In a similar way other modules can access the API file.
 
 All the types implemented by this module are accessible under the path /src/modules/user_management/model/&lt;TypeName&gt;
 
-For method overview, look at the beforementioned class diagram.
+For an overiew of available methods, look at the beforementioned class diagram.
