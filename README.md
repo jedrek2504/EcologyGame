@@ -17,17 +17,17 @@ For MANUAL ---> scroll down
 
 - Mail management interface
 
-### [View full documentation of the User Management Module (UMM)](https://github.com/jedrek2504/EcologyGame/blob/main/src/modules/user_management/README.md)
+### [View full documentation of the User Management Module (UMM)](/src/modules/user_management/README.md)
 # Forum module
 ### Module APIs
-### [View full documentation of the Forum Module (FM)](https://github.com/jedrek2504/EcologyGame/blob/main/src/modules/forum/README.md)
+### [View full documentation of the Forum Module (FM)](/src/modules/forum/README.md)
 # Leaderboard module (?)
 ### Module APIs
-### [View full documentation of the Leaderboard Module (LM)](https://github.com/jedrek2504/EcologyGame/blob/main/src/modules/leaderboard/README.md)
+### [View full documentation of the Leaderboard Module (LM)](/src/modules/leaderboard/README.md)
 ### Module APIs
 # Core module / game module
 ### Module APIs
-### [View full documentation of the Core Module/Game Module (GM)](https://github.com/jedrek2504/EcologyGame/blob/main/src/modules/game_core/README.md)
+### [View full documentation of the Core Module/Game Module (GM)](/src/modules/game_core/README.md)
 
 # EcologyGame dev guide
 
