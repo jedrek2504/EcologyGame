@@ -21,3 +21,5 @@ class TTT {
     }   
 }
 ```
+
+In a similar way other modules can access the API file
