@@ -11,4 +11,10 @@ export class NotificationManager implements IntermoduleNotificationManager {
     unregisterUser(user : User) : boolean {
         return false;
     }
+
+    private static _instance: NotificationManager
+    public static getInstance () : NotificationManager {
+      if (!this._instance) this._instance = new NotificationManager()
+      return this._instance
+    }
 }

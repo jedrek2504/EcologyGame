@@ -12,4 +12,9 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
         return [];
     }
 
+    private static _instance: UserRelationshipManager
+    public static getInstance () : UserRelationshipManager {
+      if (!this._instance) this._instance = new UserRelationshipManager()
+      return this._instance
+    }
 }

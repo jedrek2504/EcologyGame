@@ -10,4 +10,10 @@ export class ForumModuleMediator implements ForumMediator {
     postList(user : ForumUser) : Object[] {
         return [];
     }
+
+    private static _instance: ForumModuleMediator
+    public static getInstance () : ForumModuleMediator {
+      if (!this._instance) this._instance = new ForumModuleMediator()
+      return this._instance
+    }
 }

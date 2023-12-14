@@ -28,4 +28,9 @@ export class User implements GameUser, ForumUser {
     markAsForumContributor() : boolean {
         return false;
     }
+
+
+    public static getInstance () : User {
+        return new User();
+    }
 }

@@ -74,7 +74,7 @@ const LoginInstance = sequelize.define("LoginInstance", {
 	},
 	//user: {
     user_id: {
-		type: DataTypes.STRING,
+		type: DataTypes.STRING/*INT!*/,
 		allowNull: false,
 		references: {
 			model: Person,
