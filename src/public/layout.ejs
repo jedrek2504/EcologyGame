@@ -8,6 +8,12 @@
     <header><%- include('partials/header') %></header>
     <main>
       <div class="jumbotron">
+        <% if(locals.error) { %>
+          <div class="alert alert-danger alert-dismissible fade show">
+            <strong>Error!</strong> <%= locals.error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert">X</button>
+          </div>
+        <% } %>
         <%- body %>
       </div>
     </main>

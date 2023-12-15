@@ -1,3 +1,5 @@
 node_modules
 src/node_modules
 src/bin/.env
+src/transpiled
+src/undefined

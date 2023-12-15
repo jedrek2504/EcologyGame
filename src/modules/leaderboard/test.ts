@@ -1,8 +1,8 @@
-# User management API documentation
-All the interfaces shown at the [class diagram](/docs/UMM.pdf) are available through the [exports/api.ts](/src/modules/user_management/exports/api.ts) UMM API access file 
+/* 
+    YOU CAN SAFELY DELETE THIS FILE - IT IS ONLY FOR DEMONSTRATION PURPOUSE
+*/
 
-Example on how to use the UMM API as the Leaderboard module:
-```ts
+
 import { IntermoduleUserManager } from "../user_management/model/IntermoduleUserManager.js";
 import UMM from "../user_management/exports/api.js"
 import { LeaderboardUser } from "../user_management/model/LeaderboardUser.js";
@@ -20,10 +20,3 @@ class TTT {
 
     }   
 }
-```
-
-In a similar way other modules can access the API file.
-
-All the types implemented by this module are accessible under the path /src/modules/user_management/model/&lt;TypeName&gt;
-
-For an overiew of available methods, look at the beforementioned class diagram.

@@ -10,7 +10,10 @@ RUN npm install
 RUN apk add sqlite
 # RUN mkdir -p /testif/this/is/added
 COPY src/ .
-COPY .env ./bin/
+
+RUN npx tsc
+##COPY .env ./bin/
+COPY .env ./transpiled/bin/
 EXPOSE $expose_port
 # CMD [ "./start.sh" ]
 CMD ["/bin/sh", "./start.sh"]
