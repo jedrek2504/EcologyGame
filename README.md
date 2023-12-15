@@ -56,7 +56,7 @@ If you encounter problems, please create an issue for this repository.
 # Run application on a Windows system, easiest way, NOT tested:
 Excecute in the src directory:
 1. `npx tsc` in the src directory
-1. Copy ..\\.env into src\traspiled\bin
+1. Copy ..\\.env into src\transpiled\bin
 2. `npm run migrate & npm run pm2` in the src directory
 
 # Run application locally using Docker Compose (recommended for development), Linux kernel based OS required as host (container is based on node:20-alpine3.17 alpine linux with node):
