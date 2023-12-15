@@ -12,7 +12,7 @@ RUN apk add sqlite
 COPY src/ .
 
 RUN npx tsc
-COPY .env ./bin/
+##COPY .env ./bin/
 COPY .env ./transpiled/bin/
 EXPOSE $expose_port
 # CMD [ "./start.sh" ]
