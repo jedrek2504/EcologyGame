@@ -53,7 +53,7 @@ EcologyGame $ cp .env src/transpiled/bin/
 The application server should now be running directly in the host OS, using the port specified in the .env file (8090 by default for now)\
 If you encounter problems, please create an issue for this repository. 
 
-# Run application on a Windows system, easiest way:
+# Run application on a Windows system, easiest way, NOT tested:
 Excecute in the src directory:
 1. `npx tsc` in the src directory
 1. Copy ..\\.env into src\traspiled\bin
