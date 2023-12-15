@@ -39,9 +39,13 @@ If you would like to run the server without using Docker container, please follo
 ```
 $ sudo apt-get install sqlite3
 ```
-2. Copy the EcologyGame/.env file into the EcologyGame/src/bin directory:
+2. ~~Copy the EcologyGame/.env file into the EcologyGame/src/bin directory:~~
 ```
 EcologyGame $ cp .env src/bin/
+```
+UPDATE: As Typescript was added to the project, you need to copy .env into the src/transpiled/bin directory instead:
+```
+EcologyGame $ cp .env src/transpiled/bin/
 ```
 3. Run ```EcologyGame/src $ npm install```
 4. Run ```EcologyGame/src $ /bin/sh ./start.sh```
