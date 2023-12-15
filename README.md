@@ -48,11 +48,18 @@ UPDATE: As Typescript was added to the project, you need to copy .env into the s
 EcologyGame $ cp .env src/transpiled/bin/
 ```
 3. Run ```EcologyGame/src $ npm install```
-4. Run ```EcologyGame/src $ /bin/sh ./start.sh```
+4. Run ```EcologyGame/src $ npx tsc && /bin/sh ./start.sh```
    
 The application server should now be running directly in the host OS, using the port specified in the .env file (8090 by default for now)\
 If you encounter problems, please create an issue for this repository. 
-# Run application locally using Docker Compose (recommended for development):
+
+# Run application on a Windows system, easiest way:
+Excecute in the src directory:
+1. `npx tsc` in the src directory
+1. Copy ..\\.env into src\traspiled\bin
+2. `npm run migrate & npm run pm2` in the src directory
+
+# Run application locally using Docker Compose (recommended for development), Linux kernel based OS required as host (container is based on node:20-alpine3.17 alpine linux with node):
 Always make sure using the correct Docker context, by executing:
 ```
 EcologyGame $ docker context use default
