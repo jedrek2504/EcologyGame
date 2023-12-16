@@ -6,6 +6,9 @@ import { User } from "./User.js";
 import { UMMEventFilter } from "./UMMEventFilter.js";
 import {EventStream} from "../lib/EventStream.js";
 import utils from "../utils.js";
+import { LeaderboardUser } from "./LeaderboardUser.js";
+import { ForumUser } from "./ForumUser.js";
+import { GameUser } from "./GameUser.js";
 
 export class UserManager implements IntermoduleUserManager {
     getUsers(filtrator : (user : User) => boolean) : User[] {
@@ -50,7 +53,9 @@ export class UserManager implements IntermoduleUserManager {
 				"password": password,
 			}
 		});
-		if (userInstance == null) return null;
+		if (userInstance == null) {
+            throw new Error("Invalid login credentials.")
+        }
 		let generatedId;
 		do {
 			generatedId = utils.makeid(64);
@@ -70,9 +75,11 @@ export class UserManager implements IntermoduleUserManager {
 		})
     }
 
-	async getUserBySession(token: string): Promise<User | null> {
+	async getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser> {
 		const loginInstance: any = await db.LoginInstance.findByPk(token);
-		if (loginInstance == null) return null;
+		if (loginInstance == null) {
+            throw new Error("No user with such session key");
+        }
 		return new User(loginInstance.user_id);
 	}
 

@@ -14,7 +14,7 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
      * @param target 
      * @returns Relationship instance or null if the database query failed
      */
-    createRelationship(source : User, target : User) : Relationship | null{
+    createRelationship(source : User, target : User) : Relationship | null {
         if (source.getId() == target.getId()) {
             throw Error("Cannot create user relation with himself");
         }
@@ -40,17 +40,17 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
      * 
      * @param target 
      * @returns Array of relationship instances connected to the given user
-     * or null if database failed 
+     * or null if database failed
      */
-    async listUserRelationships(target : User) : Promise<Relationship[] | null> {
-        let targetID : Number = target.getId() as unknown as Number;
+    async listUserRelationships(targetUserID : string) : Promise<Relationship[] | null> {
+        //let targetID : Number = target.getId() as unknown as Number;
 
         try {
             let rels : any[] = await db.Relationship.findAll({
                 where: {
                     [Op.or]: [
-                        { a: targetID },
-                        { b: targetID }
+                        { a: targetUserID },
+                        { b: targetUserID }
                     ]
                 }
             });
