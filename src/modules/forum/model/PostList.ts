@@ -11,7 +11,7 @@ export class PostList {
 
     public addPost(post: ForumPost): boolean {
         this.posts.push(post);
-        return true; // You might want to add more logic here
+        return true;
     }
 
     public removePost(post: ForumPost): boolean {
