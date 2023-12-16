@@ -7,7 +7,8 @@
     "pm2": "npx tsc && pm2 start processes.json --no-daemon",
     "start": "npx tsc && node ./transpiled/bin/www.js",
     "test": "jest",
-    "migrate": "node ./transpiled/bin/migrate.js"
+    "migrate": "node ./transpiled/bin/migrate.js",
+    "migrate-and-pm2": "npm run migrate && npm run pm2"
   },
   "dependencies": {
     "again": "^0.0.1",
