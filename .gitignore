@@ -3,3 +3,6 @@ src/node_modules
 src/bin/.env
 src/transpiled
 src/undefined
+src/start.sh
+src/config.sh
+src/persistent_volume_guard.sh
