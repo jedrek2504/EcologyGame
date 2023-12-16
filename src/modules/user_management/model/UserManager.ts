@@ -12,7 +12,7 @@ export class UserManager implements IntermoduleUserManager {
     }
     createUser(username : string, 
                email : string, 
-               password : string) : Promise<User | null> {
+               password : string) : Promise<User> {
         
         return new Promise(async (resolve, reject)=> {
             if (await db.Person.findOne({where: {username: username}})) {
@@ -22,12 +22,15 @@ export class UserManager implements IntermoduleUserManager {
                 reject("Email is already taken");
             }
             else {
-                db.Person.create({
+                let p : any = await db.Person.create({
                     username: username,
                     password: password,
                     email: email
                 });
-                resolve(null); // Dummy / Why would I return a User instance?
+                if (p[0] == 0) {
+                    reject("Database error while creating user")
+                }
+                resolve(p); // Dummy / Why would I return a User instance?
             }
         });
     }
