@@ -61,6 +61,12 @@ export class UserManager implements IntermoduleUserManager {
 		})
     }
 
+	async getUserBySession(token: string): Promise<User | null> {
+		const loginInstance: any = await db.LoginInstance.findByPk(token);
+		if (loginInstance == null) return null;
+		return new User(loginInstance.user_id);
+	}
+
     getEventStream(streamFilter: UMMEventFilter): EventStream {
         return EventStream.getInstance();
     }
