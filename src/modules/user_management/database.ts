@@ -113,6 +113,35 @@ const Relationship = sequelize.define("Relationship", {
     ]
 })
 
+const ForumPost = sequelize.define("ForumPost", {
+	post_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		unique: true,
+		primaryKey: true,
+	},
+	creator_id: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		references: {
+			model: Person,
+			key: "user_id",
+		}
+	},
+	content: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	title: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
+	parent_id: {
+		type: DataTypes.INTEGER, // references self, can't do proper referencing because it would require the model to be finished here
+		allowNull: true,
+	}
+
+});
 
 
 /* module.exports = {
@@ -127,5 +156,6 @@ export default {
     Person: Person,
     LoginInstance: LoginInstance,
     //name: name //hide/delete?
-    Relationship: Relationship
+    Relationship: Relationship,
+    ForumPost: ForumPost,
 };
