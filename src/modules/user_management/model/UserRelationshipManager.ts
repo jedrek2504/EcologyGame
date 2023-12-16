@@ -3,6 +3,10 @@ import {User} from "./User.js";
 import { Relationship } from "./Relationship.js";
 import db from "../database.js";
 import { Op } from "sequelize";
+
+/**
+ * @note NOT tested
+ */
 export class UserRelationshipManager implements IntermoduleUserRelationshipManager {
     /**
      * 
@@ -38,17 +42,30 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
      * @returns Array of relationship instances connected to the given user
      * or null if database failed 
      */
-    listUserRelationships(target : User) : Relationship[] | null {
+    async listUserRelationships(target : User) : Promise<Relationship[] | null> {
         let targetID : Number = target.getId() as unknown as Number;
-        db.Relationship.findAll({
-            where: {
-                [Op.or]: [
-                  { a: targetID },
-                  { b: targetID }
-                ]
-            }
-        });
-        return [];
+
+        try {
+            let rels : any[] = await db.Relationship.findAll({
+                where: {
+                    [Op.or]: [
+                        { a: targetID },
+                        { b: targetID }
+                    ]
+                }
+            });
+            // Return an array of relationship instances 
+            return rels.map((r)=>{
+                return new Relationship(
+                    new User(r.first_user_id),
+                    new User(r.second_user_id)
+                );
+            })
+        } catch (error) {
+            console.error('Database error:', error);
+            throw new Error("Database error: " + error);
+            //return null;
+        }
     }
 
     private static _instance: UserRelationshipManager
