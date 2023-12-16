@@ -49,14 +49,14 @@ class UMM {
     public IntermoduleCommons : IntermoduleCommons;
     public ForumMediator : ForumMediator;
 
-    public LeaderboardUser() : LeaderboardUser {
-        return User.getInstance();
+    public LeaderboardUser(id : Number) : LeaderboardUser {
+        return User.getInstance(id);
     }
-    public GameUser() : GameUser {
-        return User.getInstance();
+    public GameUser(id : Number) : GameUser {
+        return User.getInstance(id);
     }
-    public ForumUser() : ForumUser {
-        return User.getInstance();
+    public ForumUser(id : Number) : ForumUser {
+        return User.getInstance(id);
     }
 }
 
