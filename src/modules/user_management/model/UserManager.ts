@@ -11,6 +11,7 @@ export class UserManager implements IntermoduleUserManager {
     getUsers(filtrator : (user : User) => boolean) : User[] {
         return [];
     }
+<<<<<<< HEAD
     async createUser(username: string, email: string, password: string): Promise<User | null> {
         if (await db.Person.findOne({where: {username: username}})) {
 			return null; //Trying to create existing user
@@ -25,6 +26,31 @@ export class UserManager implements IntermoduleUserManager {
 			// automatically log in
 			return await this.login(username, password);
 		}
+=======
+    createUser(username : string, 
+               email : string, 
+               password : string) : Promise<User> {
+        
+        return new Promise(async (resolve, reject)=> {
+            if (await db.Person.findOne({where: {username: username}})) {
+                reject("Trying to create existing user");
+            }
+            else if (await db.Person.findOne({where: {email: email}})) {
+                reject("Email is already taken");
+            }
+            else {
+                let p : any = await db.Person.create({
+                    username: username,
+                    password: password,
+                    email: email
+                });
+                if (p[0] == 0) {
+                    reject("Database error while creating user")
+                }
+                resolve(p); // Dummy / Why would I return a User instance?
+            }
+        });
+>>>>>>> dev-umm/real-amad
     }
 
     async deleteUser(user: User): Promise<boolean> {
