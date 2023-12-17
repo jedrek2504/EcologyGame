@@ -81,11 +81,67 @@ const LoginInstance = sequelize.define("LoginInstance", {
 			//key: "username",
             key: "user_id"
 		},
-		onUpdate: "CASCADE",
-		onDelete: "CASCADE",
+		onUpdate: "CASCADE", // are those neccessary here ? Shouldn't be on the user entity instead ?
+		onDelete: "CASCADE", //
 	}
 })
 
+const Relationship = sequelize.define("Relationship", {
+    relationship_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+		unique: true,
+        primaryKey: false,
+        autoIncrement: true
+    },
+    first_user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true
+    },
+    second_user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true // composite pk
+    }
+}, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['first_user_id', 'second_user_id']
+      }
+    ]
+})
+
+const ForumPost = sequelize.define("ForumPost", {
+	post_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		unique: true,
+		primaryKey: true,
+	},
+	creator_id: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		references: {
+			model: Person,
+			key: "user_id",
+		}
+	},
+	content: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	title: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
+	/*parent_id: {
+		type: DataTypes.INTEGER, // references self, can't do proper referencing because it would require the model to be finished here
+		allowNull: true,
+	}*/
+
+});
 
 
 /* module.exports = {
@@ -98,6 +154,8 @@ const LoginInstance = sequelize.define("LoginInstance", {
 export default {
     sequelize: sequelize,
     Person: Person,
-    LoginInstance: LoginInstance
+    LoginInstance: LoginInstance,
     //name: name //hide/delete?
+    Relationship: Relationship,
+    ForumPost: ForumPost,
 };
