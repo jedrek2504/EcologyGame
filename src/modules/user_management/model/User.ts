@@ -17,6 +17,7 @@ import { Identifier, Model } from "sequelize";
 export class User implements GameUser, ForumUser {
     private id : Number;
     private dbUser : any;
+	private sessionID: string | null;
 
     /*
         This might be ugly, as the CRUD methods might need to be async and return Promises instead
@@ -37,14 +38,29 @@ export class User implements GameUser, ForumUser {
         return succeeded;
     }
 
-    constructor(id : Number) {
+    constructor(id : Number, sessionID? : string) {
         this.id = id;
+        /*if (typeof sessionID !== 'undefined') {
+            this.sessionID = sessionID
+        }*/
+        this.sessionID = sessionID ?? null;
+
+		//#S this.sessionID = session;
         this.dbUserFetch();
     }
+
+    /*constructor(dbUser : { user_id }) {
+
+    }*/
 
     getScore() : number {
         return this.dbUser.score;
     }
+
+	getSessionId(): string | null {
+		return this.sessionID;
+	}
+
     getId() : string {
         return this.id as unknown as string;
     }
@@ -90,7 +106,7 @@ export class User implements GameUser, ForumUser {
     }
 
 
-    public static getInstance (id : Number) : User {
-        return new User(id);
+    public static getInstance (id : Number/*#S, session: string | null*/) : User {
+        return new User(id/*#S, session*/);
     }
 }

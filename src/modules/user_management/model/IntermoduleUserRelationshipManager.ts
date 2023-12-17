@@ -1,5 +1,5 @@
 import {User} from './User.js'
 import { Relationship } from './Relationship.js';
 export interface IntermoduleUserRelationshipManager {
-    listUserRelationships(target : User) : Relationship[];
+    listUserRelationships(targetUserID : string) : Promise<Relationship[] | null>;
 }
