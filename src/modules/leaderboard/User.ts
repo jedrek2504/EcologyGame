@@ -45,8 +45,13 @@ export class User implements LeaderboardUser {
         this.setScoreHidden(false);
     }
 
+
     // Example method to get the registration date
     //public getRegistrationDate(): DateTime {
         // Implement logic to get registration date
     //}
+}
+
+export default {
+    user: User
 }

@@ -22,7 +22,9 @@ class TTT {
 }
  */
 
-
+import { IntermoduleUserManager } from "../user_management/model/IntermoduleUserManager.js";
+import UMM from "../user_management/exports/api.js"
+import { LeaderboardUser } from "../user_management/model/LeaderboardUser.js";
 import { User } from "./User.js";
 import { Leaderboard } from "./LeaderBoard.js";
 
@@ -58,3 +60,10 @@ leaderboard.removeUser(user4);
 const rankingRemoveUser = leaderboard.getRanking();
 console.log("Ranking (show user):", rankingRemoveUser);
 
+function getTopUsers(): LeaderboardUser[] {
+    const ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+    return ummUserManager.getUsers((user: LeaderboardUser) => user.getScore() > 10);
+}
+
+const topUsers = getTopUsers();
+console.log("Top Users:", topUsers);
