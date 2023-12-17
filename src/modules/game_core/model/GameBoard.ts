@@ -29,4 +29,6 @@ export class GameBoard{
         }
         this.progress = numberOfTasksDone/numberOfTasks * 100;
     }
+
+    
 }
