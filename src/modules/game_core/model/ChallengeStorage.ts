@@ -1,9 +1,12 @@
+import fs from 'fs';
+import path from 'path';
 import { Challenge } from "./Challenge.js";
 export class ChallengeStorage {
     private challengeStorage: Challenge[];
 
     constructor() {
         this.challengeStorage = [];
+        this.loadChallengesFromFile();
     }
 
     addChallenge(challenge: Challenge) {
@@ -22,6 +25,13 @@ export class ChallengeStorage {
 
     public getChallenges() : Challenge[]{
         return this.challengeStorage;
+    }
+
+    private loadChallengesFromFile(): void {
+        for (let i = 0; i < 10; i++){
+            this.challengeStorage.push(new Challenge("test",i));
+        }
+
     }
 
 

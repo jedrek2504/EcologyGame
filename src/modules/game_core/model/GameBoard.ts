@@ -29,4 +29,10 @@ export class GameBoard{
         }
         this.progress = numberOfTasksDone/numberOfTasks * 100;
     }
+
+    public getTask(taskId: number): DailyTask{
+        return this.dailyTasks[taskId];
+    }
+
+    
 }
