@@ -6,7 +6,7 @@ export class DailyTask {
     private isCompleted : Boolean;
     private isAvailable : Boolean;
     private completionDate : Date;
-    private challenges : Challenge[]
+    private challenges : Challenge[] = [];
     private userId : String;
 
     constructor(
@@ -14,17 +14,20 @@ export class DailyTask {
         isCompleted: boolean,
         isAvailable: boolean,
         completionDate: Date,
-        challenges: Challenge[],
+        challengeStorage : ChallengeStorage,
         userId: string
     ) {
         this.taskId = taskId;
         this.isCompleted = isCompleted;
         this.isAvailable = isAvailable;
         this.completionDate = completionDate;
-        this.challenges = challenges;
+        this.getChallengeList(challengeStorage);
         this.userId = userId;
     }
 
+    public checkIsCompleted(): Boolean{
+        return this.isCompleted;
+    }
 
     public markAsCompleted(){
         this.isAvailable = true;

@@ -1,30 +1,22 @@
-import { GameUser } from "../../user_management/model/GameUser.js";
+/* 
+    YOU CAN SAFELY DELETE THIS FILE - IT IS ONLY FOR DEMONSTRATION PURPOUSE
+*/
 
 
-export class User implements GameUser{
+import { IntermoduleUserManager } from "../../user_management/model/IntermoduleUserManager.js";
+import UMM from "../../user_management/exports/api.js"
+import { LeaderboardUser } from "../../user_management/model/LeaderboardUser.js";
 
-    private userId : String;
-
-    private score : Number;
-
-    constructor(userId : Number, score : Number){
-        this.userId = this.getId();
-        this.score = this.getScore();
+class TTT {
+    private ummUserManager : IntermoduleUserManager;
+    constructor() {
+        this.ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+        let myFavouriteUsers : LeaderboardUser[] = this.ummUserManager.getUsers((user : LeaderboardUser) => user.getScore() > 10);
+        this.doSomething(myFavouriteUsers);
+        // ...
     }
+    // ...
+    private doSomething(users : LeaderboardUser[]) {
 
-
-
-    setScore(score: number): boolean {
-        throw new Error("Method not implemented.");
-    }
-    getUsername(): string {
-        throw new Error("Method not implemented.");
-    }
-    getScore(): number {
-        throw new Error("Method not implemented.");
-    }
-    getId(): string {
-        throw new Error("Method not implemented.");
-    }
-
+    }   
 }
