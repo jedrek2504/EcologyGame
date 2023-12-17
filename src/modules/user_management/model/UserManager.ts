@@ -53,15 +53,16 @@ export class UserManager implements IntermoduleUserManager {
 			login_id: generatedId,
 			user_id: userInstance.user_id
 		});
-        return new User(userInstance.user_id, login.login_id);
+        return new User(userInstance.user_id/*, login.login_id*/);
     }
 
     async logout(target: User): Promise<void> {
-		await db.LoginInstance.destroy({
+        throw new Error("Not implemented");
+		/*#S await db.LoginInstance.destroy({
 			where: {
 				"login_id": target.getSessionId(),
 			}
-		})
+		})*/
     }
 
 	async getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser | null> {
@@ -69,7 +70,7 @@ export class UserManager implements IntermoduleUserManager {
 		if (loginInstance == null) {
             return null;
         }
-		return new User(loginInstance.user_id, loginInstance.login_id);
+		return new User(loginInstance.user_id/*, loginInstance.login_id*/);
 	}
 
     getEventStream(streamFilter: UMMEventFilter): EventStream {
