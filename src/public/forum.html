@@ -1,1 +1,23 @@
-<h1>Forum will be here</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Express Forum</title>
+</head>
+<body>
+<h1>Forum</h1>
+<% if (posts && posts.length > 0) { %>
+<ul>
+    <% posts.forEach(post => { %>
+    <li>
+        <h2><%= post.name %></h2>
+        <p><%= post.dataObject.content %></p>
+        <small>Posted by: <%= post.creator.getUsername() %> at <%= post.dataObject.date %></small>
+    </li>
+    <% }); %>
+</ul>
+<% } else { %>
+<p>No posts to display.</p>
+<% } %>
+</body>
+</html>
