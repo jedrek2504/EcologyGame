@@ -50,13 +50,13 @@ class UMM {
     public ForumMediator : ForumMediator;
 
     public LeaderboardUser(id : Number) : LeaderboardUser {
-        return User.getInstance(id);
+        return User.getInstance(id, null);
     }
     public GameUser(id : Number) : GameUser {
-        return User.getInstance(id);
+        return User.getInstance(id, null);
     }
     public ForumUser(id : Number) : ForumUser {
-        return User.getInstance(id);
+        return User.getInstance(id, null);
     }
 }
 

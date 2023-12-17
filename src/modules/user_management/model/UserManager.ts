@@ -44,9 +44,7 @@ export class UserManager implements IntermoduleUserManager {
 				"password": password,
 			}
 		});
-		if (userInstance == null) {
-            throw new Error("Invalid login credentials.")
-        }
+		if (userInstance == null) return null
 		let generatedId;
 		do {
 			generatedId = utils.makeid(64);
@@ -55,23 +53,23 @@ export class UserManager implements IntermoduleUserManager {
 			login_id: generatedId,
 			user_id: userInstance.user_id
 		});
-        return new User(userInstance.user_id);
+        return new User(userInstance.user_id, login.login_id);
     }
 
     async logout(target: User): Promise<void> {
 		await db.LoginInstance.destroy({
 			where: {
-				"user_id": target.getId(),
+				"login_id": target.getSessionId(),
 			}
 		})
     }
 
-	async getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser> {
+	async getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser | null> {
 		const loginInstance: any = await db.LoginInstance.findByPk(token);
 		if (loginInstance == null) {
-            throw new Error("No user with such session key");
+            return null;
         }
-		return new User(loginInstance.user_id);
+		return new User(loginInstance.user_id, loginInstance.login_id);
 	}
 
     getEventStream(streamFilter: UMMEventFilter): EventStream {

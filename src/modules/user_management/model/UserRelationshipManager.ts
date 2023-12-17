@@ -57,8 +57,8 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
             // Return an array of relationship instances 
             return rels.map((r)=>{
                 return new Relationship(
-                    new User(r.first_user_id),
-                    new User(r.second_user_id)
+                    new User(r.first_user_id, null),
+                    new User(r.second_user_id, null)
                 );
             })
         } catch (error) {

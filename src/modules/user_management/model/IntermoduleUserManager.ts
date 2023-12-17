@@ -6,7 +6,7 @@ import { ForumUser } from "./ForumUser.js";
 import { LeaderboardUser } from "./LeaderboardUser.js";
 export interface IntermoduleUserManager {
     getUsers(filtrator: (user : User) => boolean) : User[];
-    getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser>
+    getUserBySessionKey(token: string): Promise<GameUser | ForumUser | LeaderboardUser | null>
 
     /**
      * 
