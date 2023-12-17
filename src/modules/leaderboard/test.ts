@@ -64,7 +64,7 @@ const rankingRemoveUser = leaderboard.getRanking();
 console.log("Ranking (show user):", rankingRemoveUser);
 
 function getTopUsers(): LeaderboardUser[] {
-    return ummUserManager.getUsers((user: LeaderboardUser) => user.getScore() > 10);
+    return ummUserManager.getUsers((user: LeaderboardUser) => true);
 }
 
 const topUsers = getTopUsers();
