@@ -19,11 +19,14 @@ export class User implements GameUser, ForumUser {
     private dbUser : any;
 	private sessionID: string | null;
 
+    private fetched : boolean = false;
+
     /*
         This might be ugly, as the CRUD methods might need to be async and return Promises instead
     */
     private async dbUserFetch() {
         this.dbUser = await db.Person.findByPk(this.id as Identifier);
+        this.fetched = true;
     }
     /*
         Same here
@@ -46,15 +49,29 @@ export class User implements GameUser, ForumUser {
         this.sessionID = sessionID ?? null;
 
 		//#S this.sessionID = session;
-        this.dbUserFetch();
+        //(async()=>this.dbUserFetch())();
     }
 
     /*constructor(dbUser : { user_id }) {
 
     }*/
 
-    getScore() : number {
-        return this.dbUser.score;
+    async getScore() : Promise<Number> {
+        return new Promise<Number>((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    resolve(this.dbUser.score);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                resolve(this.dbUser.score);
+            }
+        });
+        
+        //return this.dbUser.score;
     }
 
 	getSessionId(): string | null {

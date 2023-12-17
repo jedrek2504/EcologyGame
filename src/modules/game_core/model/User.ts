@@ -2,20 +2,20 @@ import { GameUser } from "../../user_management/model/GameUser.js";
 
 export class User{
    private gameUser :GameUser;
-   private score: number = 0;
+   private score: Number = 0;
    private userID: string = '';
 
    constructor(gameUser: GameUser){
     this.gameUser = gameUser;
     this.userID = gameUser.getUsername();
-    this.score = gameUser.getScore();
+    //this.score = gameUser.getScore(); DO ZMIANY
    }
 
-   public getScore(score: number){
+   public getScore(score: Number){
     return this.score;
    }
 
-   public setScore(score : number){
+   public setScore(score : Number){
     this.score = score;
    }
 

@@ -17,13 +17,14 @@ export class Leaderboard {
     }
 
     public getRanking(): User[] {
-        return this.board
+        /*return this.board
             .filter(user => !user.getScoreHidden())
-            .sort((a, b) => b.getScore() - a.getScore());
+            .sort((a, b) => b.getScore() - a.getScore()); */ // Do poprawy
+        return []; // for now
     }
 
     public sortUsersByScore(): void {
-        this.board.sort((a, b) => b.getScore() - a.getScore());
+        //this.board.sort((a, b) => b.getScore() - a.getScore()); //Do poprawy
     }
 
     public hideUser(user: User): void {

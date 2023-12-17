@@ -17,8 +17,12 @@ export class User implements LeaderboardUser {
         return this.username;
     }
 
-    public getScore(): number {
-        return this.score;
+    public getScore(): Promise<Number> {
+        //return this.score; /* DO ZMIANY */
+        /* BTW nie musicie implementować interfejsu LeaderboardUser */
+        return new Promise<Number>((resolve, reject) => {
+            return 0; //for now
+        });
     }
 
     public getId(): string {

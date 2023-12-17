@@ -4,6 +4,6 @@
  */
 export interface LeaderboardUser {
     getUsername() : string,
-    getScore() : number,
+    getScore() : Promise<Number>,
     getId() : string
 }
