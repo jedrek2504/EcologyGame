@@ -28,7 +28,7 @@ export class PostList {
     }
 
     public filterPostsByTitle(title: string): ForumPost[] {
-        return this.posts.filter(post => post.getTitle() === title);
+        return this.posts.filter(post => post.getName() === title);
     }
 
     public filterPostsByDate(startDate: Date, endDate: Date): ForumPost[] {

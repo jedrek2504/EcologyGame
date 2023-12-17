@@ -1,3 +1,5 @@
+/* forum/model/ForumModule.ts */
+
 import {ForumUser} from "../../user_management/model/ForumUser.js";
 import {ForumPost} from "./ForumPost.js";
 import {PostList} from "./PostList.js";
@@ -26,7 +28,7 @@ export class ForumModule {
                 this.postList.addPost(post);
                 const notification = new UserNotification();
                 notification.setTitle("New Forum Post");
-                notification.setMessage(`A new post titled '${post.getTitle()}' has been added.`);
+                notification.setMessage(`A new post titled '${post.getName()}' has been added.`);
                 this.notificationManager.notifyUser(user.getId(), notification);
                 return true;
             }

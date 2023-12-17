@@ -18,16 +18,8 @@ export class ForumPost implements Postable {
         this.timestamp = timestamp;
     }
 
-    public getTitle(): string {
-        return this.title;
-    }
-
     public getContent(): string {
         return this.content;
-    }
-
-    public getAuthor(): ForumUser {
-        return this.author;
     }
 
     public getTimestamp(): Date {
