@@ -15,18 +15,40 @@ export class UserManager implements IntermoduleUserManager {
         return [];
     }
 	async createUser(username: string, email: string, password: string): Promise<User | null> {
+        /*return new Promise(async (resolve, reject) => {
+            if (await db.Person.findOne({where: {username: username}})) {
+                reject("Trying to create existing user");
+            }
+            else if (await db.Person.findOne({where: {email: email}})) {
+                reject("Email is already taken");
+            }
+            else {
+                let p : any = await db.Person.create({
+                    username: username,
+                    password: password,
+                    email: email
+                });
+                if (p[0] == 0) {
+                    reject("Database error while creating user")
+                }
+                resolve(p); // Dummy / Why would I return a User instance?
+            }
+        });*/
+
 		if (await db.Person.findOne({where: {username: username}})) {
 			return null; //Trying to create existing user
 		} else if (await db.Person.findOne({where: {email: email}})) {
 			return null; //Email is already taken
 		} else {
-			await db.Person.create({
+			let u : any = await db.Person.create({
 				username: username,
 				password: password,
 				email: email,
 			});
-			// automatically log in
-			return await this.login(username, password);
+			/* MOVED TO users.ts (SRP) 
+            // automatically log in
+			return await this.login(username, password);*/
+            return new User(u.user_id);
 		}
     }
 
