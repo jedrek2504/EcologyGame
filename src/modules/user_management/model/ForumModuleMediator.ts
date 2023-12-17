@@ -15,7 +15,7 @@ export class ForumModuleMediator implements ForumMediator {
     async registerPost(user: ForumUser, post: /*any*/Postable): Promise<boolean> {
 		const userEntity: any = await db.Person.findByPk(user.getId());
 		userEntity.is_forum_contributor = true;
-		await userEntity.sync();
+		await userEntity.save();
 		await db.ForumPost.create({
 			creator_id: user.getId() as unknown as string,
 			content: /*post.content*/JSON.stringify(post.getDataObject()),
