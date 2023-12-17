@@ -1,10 +1,11 @@
 import {ForumUser} from "../../user_management/model/ForumUser.js";
 import {ForumPost} from "./ForumPost.js";
 import {PostList} from "./PostList.js";
-import {ForumMediator} from "../../user_management/model/ForumMediator.js";
+import UMM from "../../user_management/exports/api.js";
+import {UserNotification} from "../../user_management/model/UserNotification.js";
 import {IntermoduleNotificationManager} from "../../user_management/model/IntermoduleNotificationManager.js";
 import {IntermoduleUserManager} from "../../user_management/model/IntermoduleUserManager.js";
-import {UserNotification} from "../../user_management/model/UserNotification.js";
+import {ForumMediator} from "../../user_management/model/ForumMediator.js";
 
 export class ForumModule {
     private postList: PostList;
@@ -12,18 +13,17 @@ export class ForumModule {
     private notificationManager: IntermoduleNotificationManager;
     private userManager: IntermoduleUserManager;
 
-    constructor(postList: PostList, forumMediator: ForumMediator, notificationManager: IntermoduleNotificationManager, userManager: IntermoduleUserManager) {
+    constructor(postList: PostList) {
         this.postList = postList;
-        this.forumMediator = forumMediator;
-        this.notificationManager = notificationManager;
-        this.userManager = userManager;
+        this.forumMediator = UMM.ForumMediator;
+        this.notificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
+        this.userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
     }
 
     public addPost(user: ForumUser, post: ForumPost): boolean {
         this.forumMediator.registerPost(user, post).then((succeeded: boolean) => {
             if (succeeded) {
                 this.postList.addPost(post);
-                //Send notification about new post
                 const notification = new UserNotification();
                 notification.setTitle("New Forum Post");
                 notification.setMessage(`A new post titled '${post.getTitle()}' has been added.`);
