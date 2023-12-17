@@ -2,7 +2,7 @@ import { UserNotification } from "./UserNotification.js";
 import { IntermoduleNotificationManager } from "./IntermoduleNotificationManager.js";
 import {User} from './User.js'
 export class NotificationManager implements IntermoduleNotificationManager {
-    notifyUser(user : User, notification : UserNotification) : boolean {
+    notifyUser(userID : string, notification : UserNotification) : boolean {
         return false;
     }
     registerUser(user : User) : boolean {
