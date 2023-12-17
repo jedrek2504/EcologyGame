@@ -28,14 +28,10 @@ export class ChallengeStorage {
     }
 
     private loadChallengesFromFile(): void {
-        try {
-            const filePath = path.resolve(__dirname, 'challenges.json'); 
-            const challengesData = fs.readFileSync(filePath, 'utf-8'); 
-            const parsedChallenges: Challenge[] = JSON.parse(challengesData);
-            this.challengeStorage = parsedChallenges;
-        } catch (error) {
-            console.error('Błąd podczas wczytywania wyzwań z pliku:', error);
+        for (let i = 0; i < 10; i++){
+            this.challengeStorage.push(new Challenge("test",i));
         }
+
     }
 
 

@@ -63,6 +63,10 @@ export class DailyTask {
 
         this.challenges.push(...chosenChallenges);
     }
+
+    public getChallenges(): Challenge[]{
+        return this.challenges;
+    }
     
 
 

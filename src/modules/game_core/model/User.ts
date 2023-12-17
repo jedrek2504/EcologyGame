@@ -1,22 +1,26 @@
-/* 
-    YOU CAN SAFELY DELETE THIS FILE - IT IS ONLY FOR DEMONSTRATION PURPOUSE
-*/
+import { GameUser } from "../../user_management/model/GameUser.js";
 
+export class User{
+   private gameUser :GameUser;
+   private score: number = 0;
+   private userID: string = '';
 
-import { IntermoduleUserManager } from "../../user_management/model/IntermoduleUserManager.js";
-import UMM from "../../user_management/exports/api.js"
-import { LeaderboardUser } from "../../user_management/model/LeaderboardUser.js";
+   constructor(gameUser: GameUser){
+    this.gameUser = gameUser;
+    this.userID = gameUser.getUsername();
+    this.score = gameUser.getScore();
+   }
 
-class TTT {
-    private ummUserManager : IntermoduleUserManager;
-    constructor() {
-        this.ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
-        let myFavouriteUsers : LeaderboardUser[] = this.ummUserManager.getUsers((user : LeaderboardUser) => user.getScore() > 10);
-        this.doSomething(myFavouriteUsers);
-        // ...
-    }
-    // ...
-    private doSomething(users : LeaderboardUser[]) {
+   public getScore(score: number){
+    return this.score;
+   }
 
-    }   
+   public setScore(score : number){
+    this.score = score;
+   }
+
+   public getUserID(): string{
+    return this.userID;
+   }
+
 }
