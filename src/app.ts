@@ -22,6 +22,8 @@ import forum from "./modules/forum/routes/forum.js";
 //const ummUsers = require('./modules/user_management/routes/users.js');
 //const ummUsers = import('/modules/user_management/routes/users.js');
 //import ummUsers from './modules/user_management/routes/users.js';
+import lbmUsers from './modules/leaderboard/routes/board.js';
+import gameCoreRouter from './modules/game_core/routes/gamerouter.js';
 
 var app = express();
 
@@ -37,11 +39,13 @@ app.set("views", "./public");
 app.set('view engine', 'ejs');
 
 app.use("/umm/users", ummUsers.router);
+app.use("/lbm/board", lbmUsers.router);
 //app.use(ummUsers.checkLogin);
 app.use(ummUsers.loginGuard);
 
 app.use('/', indexRouter);
 app.use('/forum', forum.router);
+app.use('/', gameCoreRouter);
 //app.use("/umm/api", ummAPI.router);
 
 //module.exports = app;

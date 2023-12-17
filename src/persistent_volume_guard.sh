@@ -4,8 +4,8 @@ SCRIPT_NICKNAME="Persistent volume guard script"
 # export USRFILES_LOCATION="/pers/usrfiles"
 
 echo "$SCRIPT_NICKNAME: Checking the persistent volume..."
-if [ -d /ecopers ]; then
-    if [ ! -d /ecopers/sqlite/databases ]; then
+if [ -d $PERSISTENT_VOL_LOCATION ]; then
+    if [ ! -d $SQLITE_DBS_LOCATION ]; then
         echo "$SCRIPT_NICKNAME: No $SQLITE_DBS_LOCATION directory found. Creating it..." 
         mkdir -p $SQLITE_DBS_LOCATION
         if [ $? -eq 0 ]; then

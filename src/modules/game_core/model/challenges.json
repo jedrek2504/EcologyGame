@@ -1,0 +1,62 @@
+[
+    {
+        "challengeId": 1,
+        "description": "Ogranicz zużycie plastikowych opakowań. Kup produkty w opakowaniach wielokrotnego użytku."
+    },
+    {
+        "challengeId": 2,
+        "description": "Skorzystaj z ekologicznych środków transportu: rower lub transport publiczny."
+    },
+    {
+        "challengeId": 3,
+        "description": "Posegreguj śmieci: plastik, szkło, papier, bioodpady."
+    },
+    {
+        "challengeId": 4,
+        "description": "Unikaj jednorazowych produktów, takich jak jednorazowe sztućce czy kubki."
+    },
+    {
+        "challengeId": 5,
+        "description": "Oszczędzaj wodę: nie marnuj wody podczas mycia naczyń."
+    },
+    {
+        "challengeId": 6,
+        "description": "Zainwestuj w produkty zrównoważonego rozwoju: odzież z naturalnych materiałów, produkty ekologiczne."
+    },
+    {
+        "challengeId": 7,
+        "description": "Używaj torby wielokrotnego użytku zamiast plastikowych torebek na zakupy."
+    },
+    {
+        "challengeId": 8,
+        "description": "Wspieraj lokalnych producentów żywności, wybierając produkty z lokalnych rynków."
+    },
+    {
+        "challengeId": 9,
+        "description": "Zmniejsz zużycie papieru. Korzystaj z e-faktur, e-booków i elektronicznych notatek."
+    },
+    {
+        "challengeId": 10,
+        "description": "Zbieraj opadające liście i rośliny do kompostu, zamiast wyrzucać je do kosza."
+    },
+    {
+        "challengeId": 11,
+        "description": "Redukuj zużycie wody poprzez krótsze prysznice i wyłączanie kranów podczas mycia zębów."
+    },
+    {
+        "challengeId": 12,
+        "description": "Używaj wielorazowych butelek na napoje, unikaj kupowania butelek jednorazowego użytku."
+    },
+    {
+        "challengeId": 13,
+        "description": "Redukuj zużycie energii elektrycznej poprzez wyłączanie urządzeń, gdy ich nie używasz."
+    },
+    {
+        "challengeId": 14,
+        "description": "Organizuj lub uczestnicz w akcjach sprzątania otoczenia: plaże, parki, ulice."
+    },
+    {
+        "challengeId": 15,
+        "description": "Edukuj innych na temat dbania o planetę i zachęcaj do podejmowania ekologicznych działań."
+    }
+]
