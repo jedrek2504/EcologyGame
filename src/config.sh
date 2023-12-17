@@ -1,3 +1,4 @@
 #!/bin/sh
-export SQLITE_DBS_LOCATION="/Users/krzysztof/ecopers/sqlite/databases"
+export PERSISTENT_VOL_LOCATION="/ecopers"
+export SQLITE_DBS_LOCATION="/ecopers/sqlite/databases"
 #export USRFILES_LOCATION="/pers/usrfiles"
