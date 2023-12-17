@@ -5,6 +5,12 @@
     <title>Express Forum</title>
 </head>
 <body>
+<!-- Add this inside your forum.html -->
+<form action="/forum/post" method="post">
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="content" placeholder="Content" required></textarea>
+    <button type="submit">Create Post</button>
+</form>
 <h1>Forum</h1>
 <% if (posts && posts.length > 0) { %>
 <ul>
