@@ -10,6 +10,7 @@ const router = express.Router();
 
 //import {UserManager} from '../model/UserManager.js'
 import UserManager from '../model/UserManager.js'
+import { User } from '../model/User.js';
 //const UserManager = require('../model/UserManager.js');
 //const UserManager = import('../model/UserManager.js');
 //import UserManager from '../model/UserManager.js';
@@ -36,7 +37,8 @@ router.post("/register", async (req: any, res: any, next: any) => {
 })
 
 router.get("/register", async (req : any, res : any, next : any) => {
-	if ((await checkLogin(req)).logged) {
+	//if ((await checkLogin(req)).logged) {
+	if (await isLoggedIn(req)) {
 		res.redirect("/");
 		res.end();
 	}
@@ -47,7 +49,8 @@ router.get("/register", async (req : any, res : any, next : any) => {
 
 router.get("/login", async (req : any, res : any, next : any) => {
     console.log("ROUTER LOGIN"); //
-	if ((await checkLogin(req)).logged) {
+	//if ((await checkLogin(req)).logged) {
+	if (await isLoggedIn(req)) {
 		res.redirect("/");
 		res.end();
 	}
@@ -57,10 +60,18 @@ router.get("/login", async (req : any, res : any, next : any) => {
 })
 
 router.get("/logout", async (req : any, res : any, next : any) => {
-	const instance = await db.LoginInstance.findByPk(req.cookies["login_id"]);
+	/*const instance = await db.LoginInstance.findByPk(req.cookies["login_id"]);
 	if (instance) {
 		await instance.destroy();
 	}
+	res.clearCookie("login_id");
+	res.redirect("/umm/users/login");
+	res.end();*/
+
+	if (await isLoggedIn(req)) {
+		await UserManager.logout(await UserManager.getUserBySessionKey(req.cookies["login_id"]) as any);
+	}
+
 	res.clearCookie("login_id");
 	res.redirect("/umm/users/login");
 	res.end();
@@ -72,8 +83,23 @@ router.post("/login", async (req : any, res : any, next : any) => {
 	const [fields, files] = await form.parse(req);
 	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0]) {
 		//const user = await db.Person.findByPk(fields["username"][0]);
-        const user : any = await db.Person.findOne({where: {username: fields["username"][0]}});
-		if (user) {
+        //const user : any = await db.Person.findOne({where: {username: fields["username"][0]}});
+		UserManager.login(fields["username"][0], fields["password"][0])
+		.then((loggedInUser : User) => {
+			res.cookie("login_id", loggedInUser.getSessionId(), {
+				maxAge: 86400000 // one day
+			});
+			res.redirect("/");
+			res.end();
+		})
+		.catch((e : Error) => {
+			res.locals.error = e.message;
+			res.render("login.html", { title: "Login" });
+		});
+
+
+
+		/*if (user) {
 			if (user.password == fields["password"][0]) {
 				let generatedId;
 				do {
@@ -104,7 +130,7 @@ router.post("/login", async (req : any, res : any, next : any) => {
 			res.locals.error = `Username "${fields['username']}" does not exist!`;
 			res.render("login.html", { title: "Login" });
 			console.log(`User "${fields['username']}" does not exist`);
-		}
+		} */
 	} else {
 		res.locals.error = "One of needed fields was missing";
 		res.render("login.html", { title: "Login" });
@@ -114,9 +140,9 @@ router.post("/login", async (req : any, res : any, next : any) => {
 
 
 
-/**
- *  @param {express.Request} req 
- */
+/*//
+//  @param {express.Request} req 
+//
 async function checkLogin(req : any) {
 	return new Promise<any>(async (resolve : any ,reject : any) => {
 		if (req.cookies["login_id"]) {
@@ -136,13 +162,23 @@ async function checkLogin(req : any) {
 			resolve({ logged: false });
 		}
 	});
-}
+}*/
 
 /**
  *  @param {express.Request} req 
  */
-async function checkLoginSynchronous(req : any) {
-	return await checkLogin(req);
+async function isLoggedIn(req : any): Promise<boolean> {
+	if (req.cookies["login_id"]) {
+		const id = req.cookies["login_id"];
+		const login = await UserManager.getUserBySessionKey(id);
+		if (login) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -152,7 +188,8 @@ async function checkLoginSynchronous(req : any) {
  * @param {express.NextFunction} next 
  */
 async function loginGuard(req : any, res : any, next : any) {
-	if((await checkLogin(req)).logged) {
+	//if((await checkLogin(req)).logged) {
+	if (await isLoggedIn(req)) {
 		next();
 	}
 	else {
@@ -171,6 +208,7 @@ async function loginGuard(req : any, res : any, next : any) {
 export default {
 	router: router,
 	loginGuard: loginGuard,
-	checkLogin: checkLogin,
-	checkLoginSynchronous: checkLoginSynchronous
+	//checkLogin: checkLogin,
+	checkLogin: isLoggedIn
+	//checkLoginSynchronous: checkLoginSynchronous
 }
