@@ -13,12 +13,19 @@ export class User implements LeaderboardUser {
         this.scoreHidden = false;
     }
 
-    public getUsername(): string {
-        return this.username;
+    public getUsername(): Promise<string> {
+        //return this.username;
+        return new Promise<string>((resolve, reject) => { // zmienione przez integratora UMM
+            resolve(this.username);
+        });
     }
 
-    public getScore(): number {
-        return this.score;
+    public getScore(): Promise<Number> {
+        //return this.score; /* DO ZMIANY */
+        /* BTW nie musicie implementować interfejsu LeaderboardUser */
+        return new Promise<Number>((resolve, reject) => {
+            return 0; //for now
+        });
     }
 
     public getId(): string {

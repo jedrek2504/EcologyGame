@@ -19,11 +19,14 @@ export class User implements GameUser, ForumUser {
     private dbUser : any;
 	private sessionID: string | null;
 
+    private fetched : boolean = false;
+
     /*
         This might be ugly, as the CRUD methods might need to be async and return Promises instead
     */
     private async dbUserFetch() {
         this.dbUser = await db.Person.findByPk(this.id as Identifier);
+        this.fetched = true;
     }
     /*
         Same here
@@ -46,15 +49,29 @@ export class User implements GameUser, ForumUser {
         this.sessionID = sessionID ?? null;
 
 		//#S this.sessionID = session;
-        this.dbUserFetch();
+        //(async()=>this.dbUserFetch())();
     }
 
     /*constructor(dbUser : { user_id }) {
 
     }*/
 
-    getScore() : number {
-        return this.dbUser.score;
+    async getScore() : Promise<Number> {
+        return new Promise<Number>((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    resolve(this.dbUser.score);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                resolve(this.dbUser.score);
+            }
+        });
+        
+        //return this.dbUser.score;
     }
 
 	getSessionId(): string | null {
@@ -64,9 +81,34 @@ export class User implements GameUser, ForumUser {
     getId() : string {
         return this.id as unknown as string;
     }
-    setScore(score : Number) : boolean {
-        this.dbUser.score = score;
-        let succeeded : boolean = false;
+    
+    async setScore(score : Number) : Promise<void> {
+        return new Promise((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    //resolve(this.dbUser.score);
+                    if (!this.dbSave(['score'])) {
+                        reject(new Error(`Failed to store score=${score} to database`));
+                    }
+                    this.dbUser.score = score;
+                    //resolve(this.dbUser.score);
+                    resolve();
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                this.dbUser.score = score;
+                resolve();
+            }
+        });
+
+
+
+        ////this.dbUser.score = score;
+        ////let succeeded : boolean = false;
+
         /* (async () => {
                 if (await (this.dbUser as Model).save({ fields: ['score']})) {
                     succeeded = true;
@@ -75,12 +117,41 @@ export class User implements GameUser, ForumUser {
         )(); */
         //this.dbSave(['score'], (s : boolean) => succeeded = s);
         //return succeeded;
-        return this.dbSave(['score']);
+
+        ////return this.dbSave(['score']);
     }
-    getUsername() : string {
-        return this.dbUser.username;
+    getUsername() : Promise<string> {
+        return new Promise<string>((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    resolve(this.dbUser.score);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                resolve(this.dbUser.username);
+            }
+        });
+        //return this.dbUser.username;
     }
-    setUsername(username : string) : boolean {
+    setUsername(username : string) : boolean { /*{{{CHANGE THIS AND FURTHER}}} */
+        /*return new Promise<string>((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    resolve(this.dbUser.score);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                resolve(this.dbUser.username);
+            }
+        });*/
+
+
         this.dbUser.username = username;
         /*let succeeded : boolean = false;
         this.dbSave(['username'], (s : boolean) => succeeded = s);
