@@ -7,7 +7,10 @@ export class User{
 
    constructor(gameUser: GameUser){
     this.gameUser = gameUser;
-    this.userID = gameUser.getUsername();
+    //this.userID = gameUser.getUsername(); // DO ZMIANY
+    throw new Error("DO ZMIANY");
+
+
     //this.score = gameUser.getScore(); DO ZMIANY
    }
 
