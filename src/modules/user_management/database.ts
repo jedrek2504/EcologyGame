@@ -136,10 +136,10 @@ const ForumPost = sequelize.define("ForumPost", {
 		type: DataTypes.STRING,
 		allowNull: true,
 	},
-	parent_id: {
+	/*parent_id: {
 		type: DataTypes.INTEGER, // references self, can't do proper referencing because it would require the model to be finished here
 		allowNull: true,
-	}
+	}*/
 
 });
 

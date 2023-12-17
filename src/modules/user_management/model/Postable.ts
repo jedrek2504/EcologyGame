@@ -1,8 +1,9 @@
 import { ForumUser } from "./ForumUser.js"
 
-interface Postable {
+export interface Postable {
     getCreator() : ForumUser,
     getDataObject() : any,
-    getTitle() : string
-    getParent() : Postable
+    getName() : string,
+    //getParent() : Postable,
+    getIdentifier() : string
 }
