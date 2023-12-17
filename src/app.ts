@@ -22,6 +22,7 @@ import ummUsers from './modules/user_management/routes/users.js';
 //const ummUsers = import('/modules/user_management/routes/users.js');
 //import ummUsers from './modules/user_management/routes/users.js';
 import lbmUsers from './modules/leaderboard/routes/board.js';
+import gameCoreRouter from './modules/game_core/routes/gamerouter.js';
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use("/lbm/board", lbmUsers.router);
 app.use(ummUsers.loginGuard);
 
 app.use('/', indexRouter);
+app.use('/', gameCoreRouter);
 //app.use("/umm/api", ummAPI.router);
 
 //module.exports = app;

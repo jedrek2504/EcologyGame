@@ -1,0 +1,34 @@
+<h1>Game</h1>
+<div id="score">
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    // gameScript.js
+$(document).ready(function () {
+    // Function to fetch the score asynchronously
+    function getScoreAndUpdate() {
+      $.ajax({
+        url: '/getScore',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          const score = data.score;
+  
+          // Update the DOM with the new score
+          $('#score').text(score);
+        },
+        error: function (xhr, status, error) {
+          console.error(`HTTP error! Status: ${status}, Error: ${error}`);
+        }
+      });
+    }
+  
+    // Call the function when the DOM is ready
+    getScoreAndUpdate();
+  
+    // You might want to call this function periodically or in response to some user action
+    // For example, you can use setInterval to fetch the score every N seconds:
+    // setInterval(getScoreAndUpdate, 5000); // Fetch score every 5 seconds
+  });
+  
+</script>
