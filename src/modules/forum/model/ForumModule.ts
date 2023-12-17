@@ -22,8 +22,9 @@ export class ForumModule {
         this.userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
     }
 
-    public addPost(user: ForumUser, post: ForumPost): boolean {
-        this.forumMediator.registerPost(user, post).then((succeeded: boolean) => {
+    public async addPost(user: ForumUser, post: ForumPost): Promise<boolean> {
+        try {
+            const succeeded = await this.forumMediator.registerPost(user, post);
             if (succeeded) {
                 this.postList.addPost(post);
                 const notification = new UserNotification();
@@ -32,17 +33,24 @@ export class ForumModule {
                 this.notificationManager.notifyUser(user.getId(), notification);
                 return true;
             }
-        })
-        return false;
+            return false;
+        } catch (error) {
+            console.error('Error in addPost:', error);
+            return false;
+        }
     }
 
-    public removePost(user: ForumUser, post: ForumPost): boolean {
-        this.forumMediator.unregisterPost(user, post).then((succeeded: boolean) => {
+    public async removePost(user: ForumUser, post: ForumPost): Promise<boolean> {
+        try {
+            const succeeded = await this.forumMediator.unregisterPost(user, post);
             if (succeeded) {
                 return this.postList.removePost(post);
             }
-        })
-        return false;
+            return false;
+        } catch (error) {
+            console.error('Error in removePost:', error);
+            return false;
+        }
     }
 
     public sendNotification(user: ForumUser, message: string): boolean {
