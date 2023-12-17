@@ -11,8 +11,16 @@ import { ForumUser } from "./ForumUser.js";
 import { GameUser } from "./GameUser.js";
 
 export class UserManager implements IntermoduleUserManager {
-    getUsers(filtrator : (user : User) => boolean) : User[] {
-        return [];
+    async getUsers(filtrator : (user : User) => boolean) : Promise<User[]> {
+        try {
+            let users : any[] = await db.Person.findAll();
+            // Return an array of relationship instances 
+            return users.map((u)=> new User(u.user_id)).filter(filtrator);
+        } catch (error) {
+            console.error('Database error:', error);
+            throw new Error("Database error: " + error);
+            //return null;
+        }
     }
 	async createUser(username: string, email: string, password: string): Promise<User> {
         /*return new Promise(async (resolve, reject) => {
