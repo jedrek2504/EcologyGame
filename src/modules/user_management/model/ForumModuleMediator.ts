@@ -20,7 +20,6 @@ export class ForumModuleMediator implements ForumMediator {
 			creator_id: user.getId() as unknown as string,
 			content: /*post.content*/JSON.stringify(post.getDataObject()),
 			title: /*post.title*/post.getName(),
-			//parent_id: /*post.parent_id*/post.getParent(),
 		});
         return true;
     }
@@ -45,7 +44,7 @@ export class ForumModuleMediator implements ForumMediator {
     async postList(user: ForumUser): Promise<any[]> {
 		const items: any[] = await db.ForumPost.findAll({
 			where: {
-				user_id: user.getId()
+				creator_id: user.getId()
 			}
 		});
         return items.map((post) => {
@@ -57,7 +56,7 @@ export class ForumModuleMediator implements ForumMediator {
 				parent_id: post.parent_id,
 				timestamp: post.created_at,
 			}*/
-            return PostHelper.createInstance(post.user_id, 
+            return PostHelper.createInstance(post.user_id,
                                             JSON.parse(post.content), 
                                             post.title, 
                                             post.post_id);

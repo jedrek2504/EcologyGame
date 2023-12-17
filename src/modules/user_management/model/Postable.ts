@@ -4,6 +4,5 @@ export interface Postable {
     getCreator() : ForumUser,
     getDataObject() : any,
     getName() : string,
-    //getParent() : Postable,
     getIdentifier() : string
 }
