@@ -11,8 +11,11 @@ class TTT {
     private ummUserManager : IntermoduleUserManager;
     constructor() {
         this.ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
-        let myFavouriteUsers : LeaderboardUser[] = this.ummUserManager.getUsers((user : LeaderboardUser) => user.getScore() > 10);
-        this.doSomething(myFavouriteUsers);
+        this.ummUserManager.getUsers((user : LeaderboardUser) => user.getScore() > 10)
+        .then((myFavouriteUsers : LeaderboardUser[]) => {
+            this.doSomething(myFavouriteUsers);
+            //...
+        });
         // ...
     }
     // ...
