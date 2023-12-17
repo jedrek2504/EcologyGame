@@ -9,17 +9,25 @@ import {IntermoduleNotificationManager} from "../../user_management/model/Interm
 import {IntermoduleUserManager} from "../../user_management/model/IntermoduleUserManager.js";
 import {ForumMediator} from "../../user_management/model/ForumMediator.js";
 
-export class ForumModule {
+class ForumModule {
+    private static instance: ForumModule;
     private postList: PostList;
     private forumMediator: ForumMediator;
     private notificationManager: IntermoduleNotificationManager;
     private userManager: IntermoduleUserManager;
 
-    constructor(postList: PostList) {
-        this.postList = postList;
+    private constructor() {
+        this.postList = new PostList();
         this.forumMediator = UMM.ForumMediator;
         this.notificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
         this.userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+    }
+
+    public static getInstance(): ForumModule {
+        if (!ForumModule.instance) {
+            ForumModule.instance = new ForumModule();
+        }
+        return ForumModule.instance;
     }
 
     public async addPost(user: ForumUser, post: ForumPost): Promise<boolean> {
@@ -60,9 +68,9 @@ export class ForumModule {
         return this.notificationManager.notifyUser(user.getId(), notification);
     }
 
-    public manageUser(filtrator: (user: ForumUser) => boolean): ForumUser[] {
-        return this.userManager.getUsers(filtrator);
-    }
+    // public manageUser(filtrator: (user: ForumUser) => boolean): ForumUser[] {
+    //     return this.userManager.getUsers(filtrator);
+    // }
 
     public getPostById(postId: string): ForumPost | undefined {
         return this.postList.getPostById(postId);
@@ -79,3 +87,5 @@ export class ForumModule {
         }
     }
 }
+
+export default ForumModule.getInstance();

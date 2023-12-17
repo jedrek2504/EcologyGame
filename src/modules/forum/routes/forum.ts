@@ -1,14 +1,11 @@
 import express from 'express';
 import UMM from "../../user_management/exports/api.js"
 import { ForumUser } from "../../user_management/model/ForumUser.js";
-import {ForumModule} from "../model/ForumModule.js";
+import FM from "../model/ForumModule.js";
 import {ForumPost} from "../model/ForumPost.js";
-import {PostList} from "../model/PostList.js";
 
 const router = express.Router();
-// Redundant:
-const postList = new PostList()
-const forumModule = new ForumModule(postList)
+
 router.get('/', async function (req, res) {
     try {
         // Authenticate and get the user
@@ -45,7 +42,7 @@ router.post('/post', async (req, res) => {
         const { title, content } = req.body;
         const id = "1"; /* todo - Generate a unique ID for the post */
         const forumPost = new ForumPost(id, title, content, user);
-        const postCreated = await forumModule.addPost(user, forumPost);
+        const postCreated = await FM.addPost(user, forumPost);
 
         if (!postCreated) {
             res.redirect('/forum');
@@ -68,11 +65,11 @@ router.post('/delete', async (req, res) => {
 
         const { postId } = req.body;
         // Assuming ForumPost can be identified by postId
-        const forumPost = forumModule.getPostById(postId);
+        const forumPost = FM.getPostById(postId);
         if (!forumPost) {
             return res.status(404).send('Post not found');
         }
-        const postRemoved = await forumModule.removePost(user, forumPost);
+        const postRemoved = await FM.removePost(user, forumPost);
 
         if (postRemoved) {
             res.redirect('/forum');
@@ -95,7 +92,7 @@ router.get('/post/:postId', async (req, res) => {
 
         const { postId } = req.params;
 
-        const post = forumModule.getPostById(postId);
+        const post = FM.getPostById(postId);
 
         if (!post) {
             return res.status(404).send('Post not found');
