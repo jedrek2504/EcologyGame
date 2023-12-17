@@ -66,9 +66,13 @@ leaderboardManager.removeUser(user4);
 const rankingRemoveUser = leaderboard.getRanking();
 console.log("Ranking (show user):", rankingRemoveUser);
 
-function getTopUsers(): LeaderboardUser[] {
+function getTopUsers(): Promise<LeaderboardUser[]> {
     return ummUserManager.getUsers((user: LeaderboardUser) => true);
 }
 
-const topUsers = getTopUsers();
-console.log("Top Users:", topUsers);
+getTopUsers()
+.then((topUsers : LeaderboardUser[])=>{
+    console.log("Top Users:", topUsers);
+}).catch((e)=>{
+    console.error(`UMM error: ${e.message}`);
+})
