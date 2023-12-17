@@ -27,17 +27,19 @@ import UMM from "../user_management/exports/api.js"
 import { LeaderboardUser } from "../user_management/model/LeaderboardUser.js";
 import { User } from "./User.js";
 import { Leaderboard } from "./LeaderBoard.js";
-
+import { LeaderboardManager } from "./LeaderBoardManager.js";
+const ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+const ummNotificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
 const leaderboard = new Leaderboard();
-
+const leaderboardManager = new LeaderboardManager(ummUserManager, ummNotificationManager, leaderboard);
 
 const user1 = new User("John", 100, "abc");
 const user2 = new User("Jane", 150, "bcd");
 const user3 = new User("Bob", 120, "cde");
 const user4 = new User("Adam", 130,"def");
-leaderboard.addUser(user1);
-leaderboard.addUser(user2);
-leaderboard.addUser(user3);
+leaderboardManager.addUser(user1);
+leaderboardManager.addUser(user2);
+leaderboardManager.addUser(user3);
 
 const ranking = leaderboard.getRanking();
 console.log("Ranking:", ranking);
@@ -50,18 +52,18 @@ console.log("Ranking (add user):", rankingAddUser);
 
 leaderboard.hideUser(user4)
 const rankingHideUser = leaderboard.getRanking();
+console.log(user4);
 console.log("Ranking (hide user):", rankingHideUser);
 
 leaderboard.showUser(user4)
 const rankingShowUser = leaderboard.getRanking();
 console.log("Ranking (show user):", rankingShowUser);
 
-leaderboard.removeUser(user4);
+leaderboardManager.removeUser(user4);
 const rankingRemoveUser = leaderboard.getRanking();
 console.log("Ranking (show user):", rankingRemoveUser);
 
 function getTopUsers(): LeaderboardUser[] {
-    const ummUserManager = UMM.IntermoduleCommons.IntermoduleUserManager;
     return ummUserManager.getUsers((user: LeaderboardUser) => user.getScore() > 10);
 }
 

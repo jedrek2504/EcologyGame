@@ -3,7 +3,7 @@ import { IntermoduleNotificationManager } from "../user_management/model/Intermo
 import { Leaderboard } from "./LeaderBoard.js";
 import { User } from "./User.js";
 
-class LeaderboardManager {
+export class LeaderboardManager {
     private userManager: IntermoduleUserManager;
     private notificationManager: IntermoduleNotificationManager;
     private leaderboard: Leaderboard;
@@ -22,7 +22,7 @@ class LeaderboardManager {
         this.leaderboard.removeUser(user);
     }
 
-    public notifyUser(user: User, notification: string): void {
-        this.notificationManager.notifyUser(user, notification);
-    }
+    //public notifyUser(user: User, notification: string): void {
+    //    this.notificationManager.notifyUser(user, notification);
+    //}
 }

@@ -17,7 +17,9 @@ export class Leaderboard {
     }
 
     public getRanking(): User[] {
-        return this.board.slice().sort((a, b) => b.getScore() - a.getScore());
+        return this.board
+            .filter(user => !user.getScoreHidden())
+            .sort((a, b) => b.getScore() - a.getScore());
     }
 
     public sortUsersByScore(): void {
@@ -32,7 +34,4 @@ export class Leaderboard {
         user.show();
     }
 
-    public deleteEvent(): void {
-        this.board = [];
-    }
 }
