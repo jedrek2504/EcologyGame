@@ -12,16 +12,21 @@ export class ForumModuleMediator implements ForumMediator {
 	 * @param {Number | null} post.parent_id ID of the post that this post replies to
 	 * @returns 
 	 */
-    async registerPost(user: ForumUser, post: /*any*/Postable): Promise<boolean> {
+    async registerPost(user: ForumUser, post: /*any*/Postable): Promise<string> {
 		const userEntity: any = await db.Person.findByPk(user.getId());
 		userEntity.is_forum_contributor = true;
-		await userEntity.sync();
-		await db.ForumPost.create({
+		await userEntity.save();
+		const forumPost : any = await db.ForumPost.create({
 			creator_id: user.getId() as unknown as string,
 			content: /*post.content*/JSON.stringify(post.getDataObject()),
 			title: /*post.title*/post.getName(),
 		});
-        return true;
+
+        if (!forumPost) {
+            throw new Error("Database insertion fail");
+        }
+        //return true;
+        return forumPost.post_id;
     }
 	/**
 	 * 
