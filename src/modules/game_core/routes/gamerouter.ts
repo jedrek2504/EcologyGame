@@ -20,9 +20,9 @@ router.get('/game',function(req : any, res : any, next : any) {
 
 router.get('/getScore',async function(req : any, res : any, next : any) {
   user = <GameUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
-  const score = user.getId();
+  const score = 1;
   const username = user.getId();
-  //userInstance = new User(user);
+  userInstance = new User(user);
   gameBoard = new GameBoard(0,0);
 
   res.json({score,username});
@@ -30,11 +30,8 @@ router.get('/getScore',async function(req : any, res : any, next : any) {
 
 router.post('/game', function (req, res) {
   const toggleValue = req.body.toggleValue;
-  /*const dailyTask = gameBoard.getTask(toggleValue);
-  const challenges = dailyTask.getChallenges();
-  const chalengedesc = challenges.map(challenge => challenge.getDescription());*/
-  const dailyTask = new GameBoard(0,0)
-  const test = dailyTask.getTask(toggleValue).getChallenges().map(challenge => challenge.getDescription());
+  const dailyTask = gameBoard.getTask(toggleValue);
+  const test = dailyTask.getChallenges().map(challenge => challenge.getDescription());
   res.json({ test });
 });
 //module.exports = router;
