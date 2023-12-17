@@ -21,6 +21,7 @@ import ummUsers from './modules/user_management/routes/users.js';
 //const ummUsers = require('./modules/user_management/routes/users.js');
 //const ummUsers = import('/modules/user_management/routes/users.js');
 //import ummUsers from './modules/user_management/routes/users.js';
+import lbmUsers from './modules/leaderboard/routes/board.js';
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.set("views", "./public");
 app.set('view engine', 'ejs');
 
 app.use("/umm/users", ummUsers.router);
+app.use("/lbm/board", lbmUsers.router);
 //app.use(ummUsers.checkLogin);
 app.use(ummUsers.loginGuard);
 
