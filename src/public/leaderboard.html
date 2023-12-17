@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+</head>
+<body>
+<h1>Leaderboard</h1>
+<table id="leaderboardTable">
+    <thead>
+    <tr>
+        <th>Nazwa użytkownika</th>
+        <th>Punkty</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    function loadLeaderboard() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/lbm/board/json/leaderboard', true);
+
+        xhr.onload = function() {
+            if (this.status === 200) {
+                var users = JSON.parse(this.responseText);
+                var tableBody = document.getElementById('leaderboardTable').getElementsByTagName('tbody')[0];
+                users.forEach(function(user) {
+                    var row = tableBody.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.textContent = user.dbUser.username; //
+                    cell2.textContent = user.dbUser.score;
+                });
+            } else {
+                console.error('Błąd ładowania leaderboarda:', this.statusText);
+            }
+        };
+
+        xhr.onerror = function() {
+            console.error('Błąd połączenia z serwerem.');
+        };
+
+        xhr.send();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadLeaderboard);
+</script>
+</body>
+</html>
