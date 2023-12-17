@@ -64,6 +64,10 @@ export class ForumModule {
         return this.userManager.getUsers(filtrator);
     }
 
+    public getPostById(postId: string): ForumPost | undefined {
+        return this.postList.getPostById(postId);
+    }
+
     public filterPosts(filterType: string, filterValue: string): ForumPost[] {
         if (filterType === "title") {
             return this.postList.filterPostsByTitle(filterValue);

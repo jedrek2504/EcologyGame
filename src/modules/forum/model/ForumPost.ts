@@ -4,14 +4,14 @@ import { ForumUser } from "../../user_management/model/ForumUser.js";
 import {Postable} from "../../user_management/model/Postable.js";
 
 export class ForumPost implements Postable {
-    // private id: string;
+    private id: string;
     private title: string;
     private content: string;
     private author: ForumUser;
     private timestamp: Date;
 
-    constructor(title: string, content: string, author: ForumUser) {
-        // this.id = id;
+    constructor(id: String, title: string, content: string, author: ForumUser) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
@@ -39,7 +39,7 @@ export class ForumPost implements Postable {
     }
 
     getIdentifier(): string {
-        return "";
+        return this.id;
     }
 
     getName(): string {

@@ -6,6 +6,7 @@ import {ForumPost} from "../model/ForumPost.js";
 import {PostList} from "../model/PostList.js";
 
 const router = express.Router();
+// Redundant:
 const postList = new PostList()
 const forumModule = new ForumModule(postList)
 router.get('/', async function (req, res) {
@@ -18,7 +19,7 @@ router.get('/', async function (req, res) {
             return res.redirect('/login');
         }
 
-        // todo - to powinno byc nadpisane przez odpowiednia metode postList z naszego modulu
+        // todo - to powinno byc wyswietlane przez odpowiednia metode postList z naszego modulu
         const posts = await UMM.ForumMediator.postList(user);
 
         // Render the forum page with posts
@@ -42,7 +43,8 @@ router.post('/post', async (req, res) => {
         }
 
         const { title, content } = req.body;
-        const forumPost = new ForumPost(title, content, user);
+        const id = "1"; /* todo - Generate a unique ID for the post */
+        const forumPost = new ForumPost(id, title, content, user);
         const postCreated = await forumModule.addPost(user, forumPost);
 
         if (!postCreated) {
@@ -56,6 +58,59 @@ router.post('/post', async (req, res) => {
     }
 });
 
+// Route to handle post removal
+router.post('/delete', async (req, res) => {
+    try {
+        const user: ForumUser = <ForumUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+        if (!user) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const { postId } = req.body;
+        // Assuming ForumPost can be identified by postId
+        const forumPost = forumModule.getPostById(postId);
+        if (!forumPost) {
+            return res.status(404).send('Post not found');
+        }
+        const postRemoved = await forumModule.removePost(user, forumPost);
+
+        if (postRemoved) {
+            res.redirect('/forum');
+        } else {
+            res.status(500).send('Failed to remove post');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Route to display a specific post
+router.get('/post/:postId', async (req, res) => {
+    try {
+        const user: ForumUser = <ForumUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+        if (!user) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const { postId } = req.params;
+
+        const post = forumModule.getPostById(postId);
+
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+
+        // Render a page to display the post
+        res.render('post.html', {
+            title: post.getName(),
+            post: post,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 export default {
     router: router
