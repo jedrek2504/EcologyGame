@@ -11,7 +11,7 @@ export class User{
     this.score = gameUser.getScore();
    }
 
-   public getScore(score: number){
+   public getScore(): number{
     return this.score;
    }
 

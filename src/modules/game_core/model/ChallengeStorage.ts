@@ -29,7 +29,7 @@ export class ChallengeStorage {
 
     private loadChallengesFromFile(): void {
         for (let i = 0; i < 10; i++){
-            this.challengeStorage.push(new Challenge("test",i));
+            this.challengeStorage.push(new Challenge("test"+ i,i));
         }
 
     }

@@ -1,11 +1,22 @@
-<h1>Game</h1>
-<div id="score">
+<h1 class="text-center">Ecology Game</h1>
+<div class="row">
+    <div class="col-md-4" id="score">12</div>
+    <di class="col-md-8 text-center" id="username">krzysiek</di>
+</div>
+<div class="container-fluid text-center">
+    <button id="dailyTaskButton" data-toggle="1"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">1</span></button>
+</div>
+<div class="mymodal border shadow" id="dailytask" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width:500px; height:500px; z-index: 100; background-color: #ffffff;">
+    <div class="col-12 text-center">DailyTask</div>
+    <div id="display"></div>
+    <button id="close" class="btn btn-danger mx-auto d-block">CLOSE</button>
+</div>
+
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     // gameScript.js
 $(document).ready(function () {
-    // Function to fetch the score asynchronously
     function getScoreAndUpdate() {
       $.ajax({
         url: '/getScore',
@@ -13,19 +24,54 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (data) {
           const score = data.score;
+          const username = data.username;
   
-          // Update the DOM with the new score
-          $('#score').text(score);
+          $('#score').text('Score: ' + score);
+          $('#dailytask').css('display', 'block');
         },
         error: function (xhr, status, error) {
           console.error(`HTTP error! Status: ${status}, Error: ${error}`);
         }
       });
     }
+    $('#close').on('click', function () {
+        $('#dailytask').css('display', 'none');
+        $("#display").empty();
+    });
+
+    $('#dailyTaskButton').on('click', function () {
+  const dataToggleValue = $(this).data('toggle');
+  
+  // Send a POST request with the data-toggle value in the request body
+  $.ajax({
+    url: '/game',
+    method: 'POST',
+    contentType: 'application/json', // Set content type to JSON
+    data: JSON.stringify({ toggleValue: dataToggleValue }), // Convert to JSON string
+    dataType: 'json',
+    success: function (response) {
+      const array = response.test;
+      for(let i=0; i < array.length; i++){
+        const newText = array[i];
+
+        const newDiv = $('<div>', {
+        class: 'text-center',
+        text: newText
+      });
+        $("#display").append(newDiv);
+      }
+      getScoreAndUpdate();
+      $('#dailytask').css('display', 'block');
+    },
+    error: function (xhr, status, error) {
+      console.error('Error sending POST request:', error);
+    }
+  });
+});
+
 
     // Call the function when the DOM is ready
     getScoreAndUpdate();
-  
     // You might want to call this function periodically or in response to some user action
     // For example, you can use setInterval to fetch the score every N seconds:
     // setInterval(getScoreAndUpdate, 5000); // Fetch score every 5 seconds
