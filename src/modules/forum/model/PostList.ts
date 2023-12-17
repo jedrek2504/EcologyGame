@@ -1,6 +1,6 @@
 /* forum/model/PostList.ts */
 
-import { ForumPost } from "./ForumPost";
+import { ForumPost } from "./ForumPost.js";
 
 export class PostList {
     private posts: ForumPost[];

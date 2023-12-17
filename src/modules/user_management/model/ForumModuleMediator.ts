@@ -20,7 +20,6 @@ export class ForumModuleMediator implements ForumMediator {
 			creator_id: user.getId() as unknown as string,
 			content: /*post.content*/JSON.stringify(post.getDataObject()),
 			title: /*post.title*/post.getName(),
-			//parent_id: /*post.parent_id*/post.getParent(),
 		});
         return true;
     }

@@ -1,8 +1,9 @@
 /* forum/model/ForumPost.ts */
 
 import { ForumUser } from "../../user_management/model/ForumUser.js";
+import {Postable} from "../../user_management/model/Postable.js";
 
-export class ForumPost {
+export class ForumPost implements Postable {
     private id: string;
     private title: string;
     private content: string;
@@ -31,5 +32,25 @@ export class ForumPost {
 
     public getTimestamp(): Date {
         return this.timestamp;
+    }
+
+    getCreator(): ForumUser {
+        return this.author;
+    }
+
+    getDataObject(): any {
+
+        return {
+            content: this.content,
+            date: this.timestamp
+        }
+    }
+
+    getIdentifier(): string {
+        return this.id;
+    }
+
+    getName(): string {
+        return this.title;
     }
 }

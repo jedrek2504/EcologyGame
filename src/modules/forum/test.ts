@@ -7,16 +7,6 @@ import {PostList} from './model/PostList.js';
 import {ForumUser} from "../user_management/model/ForumUser.js";
 
 // Mock implementation of ForumUser for demonstration
-interface ForumUser {
-    getUsername(): string;
-
-    getEmail(): string;
-
-    getId(): string;
-
-    hasContributedToForum(): boolean;
-}
-
 class MockForumUser implements ForumUser {
     getUsername() {
         return "testUser";
