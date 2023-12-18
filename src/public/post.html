@@ -7,6 +7,6 @@
 <body>
 <h1><%= post.getTitle() %></h1>
 <p><%= post.getContent() %></p>
-<small>Posted by: <%= post.getAuthor().getUsername() %> at <%= post.getTimestamp() %></small>
+<small>Posted by: <%= post.creatorUsername %> at <%= post.getTimestamp() %></small>
 </body>
 </html>

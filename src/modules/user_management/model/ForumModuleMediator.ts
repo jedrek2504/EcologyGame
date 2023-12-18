@@ -58,26 +58,13 @@ export class ForumModuleMediator implements ForumMediator {
 		const returnable = [];
 
 		for (const post of items) {
-			const postHelper: any = PostHelper.createInstance(new User(parseInt(post.creator_id)), JSON.parse(post.content), post.title, post.post_id);
+			const postHelper: any = PostHelper.createInstance(user, JSON.parse(post.content), post.title, post.post_id);
 			postHelper.creatorUsername = await postHelper.creator.getUsername();
+			postHelper.title = post.title;
 			returnable.push(postHelper);
 		}
 
 		return returnable;
-
-        // return items.map(async (post) => {
-		// 	/*return {
-		// 		post_id: post.post_id,
-		// 		user_id: post.user_id,
-		// 		content: post.content,
-		// 		title: post.title,
-		// 		parent_id: post.parent_id,
-		// 		timestamp: post.created_at,
-		// 	}*/
-		// 	let postHelper: any = PostHelper.createInstance(new User(parseInt(post.post_id)), JSON.parse(post.content), post.title, post.post_id);
-		// 	postHelper
-        //     return postHelper;
-		// });
     }
 
     private static _instance: ForumModuleMediator

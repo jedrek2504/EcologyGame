@@ -21,6 +21,18 @@ class ForumModule {
         this.forumMediator = UMM.ForumMediator;
         this.notificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
         this.userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+
+		// postList is empty after boot
+		// pray to all gods that other parts of booting will take long enough
+		this.userManager.getUsers((_) => true).then((users) => {
+			users.forEach((user) => {
+				this.forumMediator.postList(user).then((posts) => {
+					posts.forEach((post) => {
+						this.postList.addPost(new ForumPost(post.getIdentifier(), post.getDataObject().title, post.getDataObject().content, user));
+					})
+				});
+			})
+		});
     }
 
     public static getInstance(): ForumModule {

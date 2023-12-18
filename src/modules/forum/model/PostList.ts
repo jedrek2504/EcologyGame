@@ -28,7 +28,7 @@ export class PostList {
     }
 
     public getPostById(postId: string): ForumPost | undefined {
-        return this.posts.find(post => post.getIdentifier() === postId);
+        return this.posts.find(post => post.getIdentifier() == postId);
     }
 
     public filterPostsByTitle(title: string): ForumPost[] {

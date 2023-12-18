@@ -44,4 +44,8 @@ export class ForumPost implements Postable {
     getName(): string {
         return this.title;
     }
+
+	getTitle(): string {
+		return this.title;
+	}
 }
