@@ -38,13 +38,12 @@ router.post('/post', async (req, res) => {
         if (!user) {
             return res.status(401).send('Unauthorized');
         }
-
         const { title, content } = req.body;
         const id = "1"; /* todo - Generate a unique ID for the post */
         const forumPost = new ForumPost(id, title, content, user);
         const postCreated = await FM.addPost(user, forumPost);
 
-        if (!postCreated) {
+        if (postCreated) {
             res.redirect('/forum');
         } else {
             res.status(500).send('Failed to create post');

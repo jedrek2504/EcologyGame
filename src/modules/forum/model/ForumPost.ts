@@ -10,7 +10,7 @@ export class ForumPost implements Postable {
     private author: ForumUser;
     private timestamp: Date;
 
-    constructor(id: String, title: string, content: string, author: ForumUser) {
+    constructor(id: string, title: string, content: string, author: ForumUser) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -31,7 +31,6 @@ export class ForumPost implements Postable {
     }
 
     getDataObject(): any {
-
         return {
             content: this.content,
             date: this.timestamp
