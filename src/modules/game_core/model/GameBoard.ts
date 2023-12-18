@@ -34,5 +34,13 @@ export class GameBoard{
         return this.dailyTasks[taskId];
     }
 
+    public updateTask(taskId: number){
+        this.dailyTasks[taskId].markAsCompleted();
+    }
+
+    public calculateWinStreak(){
+        throw new Error("Not implemented yet");
+    }
+
     
 }
