@@ -11,28 +11,28 @@ import {ForumMediator} from "../../user_management/model/ForumMediator.js";
 
 class ForumModule {
     private static instance: ForumModule;
-    private postList: PostList;
-    private forumMediator: ForumMediator;
-    private notificationManager: IntermoduleNotificationManager;
-    private userManager: IntermoduleUserManager;
+    private _postList: PostList;
+    private readonly _forumMediator: ForumMediator;
+    private readonly _notificationManager: IntermoduleNotificationManager;
+    private readonly _userManager: IntermoduleUserManager;
 
     private constructor() {
-        this.postList = new PostList();
-        this.forumMediator = UMM.ForumMediator;
-        this.notificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
-        this.userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
+        this._postList = new PostList();
+        this._forumMediator = UMM.ForumMediator;
+        this._notificationManager = UMM.IntermoduleCommons.IntermoduleNotificationManager;
+        this._userManager = UMM.IntermoduleCommons.IntermoduleUserManager;
 
-		// postList is empty after boot
-		// pray to all gods that other parts of booting will take long enough
-		this.userManager.getUsers((_) => true).then((users) => {
-			users.forEach((user) => {
-				this.forumMediator.postList(user).then((posts) => {
-					posts.forEach((post) => {
-						this.postList.addPost(new ForumPost(post.getIdentifier(), post.getDataObject().title, post.getDataObject().content, user));
-					})
-				});
-			})
-		});
+        // postList is empty after boot
+        // pray to all gods that other parts of booting will take long enough
+        this._userManager.getUsers((_) => true).then((users) => {
+            users.forEach((user) => {
+                this._forumMediator.postList(user).then((posts) => {
+                    posts.forEach((post) => {
+                        this._postList.addPost(new ForumPost(post.getIdentifier(), post.getDataObject().title, post.getDataObject().content, user));
+                    })
+                });
+            })
+        });
     }
 
     public static getInstance(): ForumModule {
@@ -44,13 +44,13 @@ class ForumModule {
 
     public async addPost(user: ForumUser, post: ForumPost): Promise<boolean> {
         try {
-            const succeeded = await this.forumMediator.registerPost(user, post);
+            const succeeded = await this._forumMediator.registerPost(user, post);
             if (succeeded) {
-                this.postList.addPost(post);
+                this._postList.addPost(post);
                 const notification = new UserNotification();
                 notification.setTitle("New Forum Post");
                 notification.setMessage(`A new post titled '${post.getName()}' has been added.`);
-                this.notificationManager.notifyUser(user.getId(), notification);
+                this._notificationManager.notifyUser(user.getId(), notification);
                 return true;
             }
             return false;
@@ -62,9 +62,9 @@ class ForumModule {
 
     public async removePost(user: ForumUser, post: ForumPost): Promise<boolean> {
         try {
-            const succeeded = await this.forumMediator.unregisterPost(user, post);
+            const succeeded = await this._forumMediator.unregisterPost(user, post);
             if (succeeded) {
-                return this.postList.removePost(post);
+                return this._postList.removePost(post);
             }
             return false;
         } catch (error) {
@@ -77,7 +77,7 @@ class ForumModule {
         const notification = new UserNotification();
         notification.setTitle("Forum Notification");
         notification.setMessage(message);
-        return this.notificationManager.notifyUser(user.getId(), notification);
+        return this._notificationManager.notifyUser(user.getId(), notification);
     }
 
     // public manageUser(filtrator: (user: ForumUser) => boolean): ForumUser[] {
@@ -85,18 +85,35 @@ class ForumModule {
     // }
 
     public getPostById(postId: string): ForumPost | undefined {
-        return this.postList.getPostById(postId);
+        return this._postList.getPostById(postId);
     }
 
     public filterPosts(filterType: string, filterValue: string): ForumPost[] {
         if (filterType === "title") {
-            return this.postList.filterPostsByTitle(filterValue);
+            return this._postList.filterPostsByTitle(filterValue);
         } else if (filterType === "date") {
             const [startDate, endDate] = filterValue.split(":").map(dateStr => new Date(dateStr));
-            return this.postList.filterPostsByDate(startDate, endDate);
+            return this._postList.filterPostsByDate(startDate, endDate);
         } else {
             return [];
         }
+    }
+
+    // Getters
+    get forumMediator(): ForumMediator {
+        return this._forumMediator;
+    }
+
+    get postList(): PostList {
+        return this._postList;
+    }
+
+    get notificationManager(): IntermoduleNotificationManager {
+        return this._notificationManager;
+    }
+
+    get userManager(): IntermoduleUserManager {
+        return this._userManager;
     }
 }
 
