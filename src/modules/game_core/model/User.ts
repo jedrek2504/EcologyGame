@@ -5,13 +5,10 @@ export class User{
    private score: Number = 0;
    private userID: string = '';
 
-   constructor(gameUser: GameUser){
+   constructor(gameUser: GameUser,score: number,userID: string){
     this.gameUser = gameUser;
-    //this.userID = gameUser.getUsername(); // DO ZMIANY
-    throw new Error("DO ZMIANY");
-
-
-    //this.score = gameUser.getScore(); DO ZMIANY
+    this.score = score;
+    this.userID = userID;
    }
 
    public getScore(score: Number){
