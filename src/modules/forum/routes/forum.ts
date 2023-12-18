@@ -19,6 +19,7 @@ router.get('/', async function (req, res) {
         // todo - to powinno byc wyswietlane przez odpowiednia metode postList z naszego modulu
         const posts = await UMM.ForumMediator.postList(user);
 
+        res.locals.posts = posts;
         // Render the forum page with posts
         res.render('forum.html', {
             title: 'Forum',

@@ -14,7 +14,7 @@
 <h1>Forum</h1>
 <% if (posts && posts.length > 0) { %>
 <ul>
-    <% posts.forEach(post => { %>
+    <% posts.forEach(post : Postable => { %>
     <li>
         <!-- Title with a link to the display page for each post -->
         <h2><a href="/forum/post/<%= post.getIdentifier() %>"><%= post.name %></a></h2>
