@@ -16,19 +16,17 @@ import { User } from '../model/User.js';
 //import UserManager from '../model/UserManager.js';
 
 router.post("/register", async (req: any, res: any, next: any) => {
-	////const form = new formidable.IncomingForm();
-	const form = formidable();
-	const [fields, files] = await form.parse(req); //Modern JavaScript is hell
-	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0] && fields["email"] && fields["email"][0]) {
+	if (req.body.username && req.body.password && req.body.email) {
         
-        UserManager.createUser(fields["username"][0], fields["email"][0], fields["password"][0]).then((u : any)=>{
+		try {
+        	const user = await UserManager.createUser(req.body.username, req.body.email, req.body.password);
             res.redirect("/umm/users/login");
 			res.end();
-        }).catch((reason : any)=>{
+		} catch (reason) {
             res.locals.error = reason;
 			res.render("register.html", { title: "Registration" });
 			console.log(`Register: ${reason}`);
-        });
+		}
 	} else {
 		res.locals.error = "One of needed fields was missing";
 		res.render("register.html", { title: "Registration" });
@@ -37,7 +35,6 @@ router.post("/register", async (req: any, res: any, next: any) => {
 })
 
 router.get("/register", async (req : any, res : any, next : any) => {
-	//if ((await checkLogin(req)).logged) {
 	if (await isLoggedIn(req)) {
 		res.redirect("/");
 		res.end();
@@ -49,7 +46,6 @@ router.get("/register", async (req : any, res : any, next : any) => {
 
 router.get("/login", async (req : any, res : any, next : any) => {
     console.log("ROUTER LOGIN"); //
-	//if ((await checkLogin(req)).logged) {
 	if (await isLoggedIn(req)) {
 		res.redirect("/");
 		res.end();
@@ -60,14 +56,6 @@ router.get("/login", async (req : any, res : any, next : any) => {
 })
 
 router.get("/logout", async (req : any, res : any, next : any) => {
-	/*const instance = await db.LoginInstance.findByPk(req.cookies["login_id"]);
-	if (instance) {
-		await instance.destroy();
-	}
-	res.clearCookie("login_id");
-	res.redirect("/umm/users/login");
-	res.end();*/
-
 	if (await isLoggedIn(req)) {
 		await UserManager.logout(await UserManager.getUserBySessionKey(req.cookies["login_id"]) as any);
 	}
@@ -78,42 +66,22 @@ router.get("/logout", async (req : any, res : any, next : any) => {
 })
 
 router.post("/login", async (req : any, res : any, next : any) => {
-	////const form = new formidable.IncomingForm();
-	const form = formidable();
-	const [fields, files] = await form.parse(req);
-	if (fields["username"] && fields["username"][0] && fields["password"] && fields["password"][0]) {
-		//const user = await db.Person.findByPk(fields["username"][0]);
-        //const user : any = await db.Person.findOne({where: {username: fields["username"][0]}});
-		UserManager.login(fields["username"][0], fields["password"][0])
-		.then((loggedInUser : User) => {
-			res.cookie("login_id", loggedInUser.getSessionId(), {
-				maxAge: 86400000 // one day
-			});
-			res.redirect("/");
-			res.end();
-		})
-		.catch((e : Error) => {
-			res.locals.error = e.message;
-			res.render("login.html", { title: "Login" });
-		});
-
-
-
-		/*if (user) {
-			if (user.password == fields["password"][0]) {
+	if (req.body.username && req.body.password) {
+        const user : any = await db.Person.findOne({where: {username: req.body.username}});
+		if (user) {
+			console.log("FOUNDFOUND")
+			if (user.password == req.body.password) {
 				let generatedId;
 				do {
 					generatedId = utils.makeid(32);
 				} while (await db.LoginInstance.findByPk(generatedId));
 				await db.LoginInstance.destroy({
 					where: {
-					  //user: user.username
                       user_id: user.user_id
 					}
 				  });
 				await db.LoginInstance.create({
 					login_id: generatedId,
-					//user: user.username,
                     user_id: user.user_id
 				});
 				res.cookie("login_id", generatedId, {
@@ -127,43 +95,16 @@ router.post("/login", async (req : any, res : any, next : any) => {
 				console.log(`Incorrect user password for ${user.username}`);
 			}
 		} else {
-			res.locals.error = `Username "${fields['username']}" does not exist!`;
+			res.locals.error = `Username "${req.body.username}" does not exist!`;
 			res.render("login.html", { title: "Login" });
-			console.log(`User "${fields['username']}" does not exist`);
-		} */
+			console.log(`User "${req.body.username}" does not exist`);
+		}
 	} else {
 		res.locals.error = "One of needed fields was missing";
 		res.render("login.html", { title: "Login" });
 		console.log("Login: One of needed fields was missing");
 	}
 })
-
-
-
-/*//
-//  @param {express.Request} req 
-//
-async function checkLogin(req : any) {
-	return new Promise<any>(async (resolve : any ,reject : any) => {
-		if (req.cookies["login_id"]) {
-			const id = req.cookies["login_id"];
-            console.log("BEFORE findByPk"); //
-			const login = await db.LoginInstance.findByPk(id);
-            console.log("AFTER findByPk"); // 
-            console.log()
-			if (login) {
-				resolve({ logged: true });
-			}
-			else {
-				resolve({ logged: false });
-			}
-		}
-		else {
-			resolve({ logged: false });
-		}
-	});
-}*/
-
 /**
  *  @param {express.Request} req 
  */
@@ -198,17 +139,8 @@ async function loginGuard(req : any, res : any, next : any) {
 	}
 }
 
-/*module.exports = {
-	router: router,
-	loginGuard: loginGuard,
-	checkLogin: checkLogin,
-	checkLoginSynchronous: checkLoginSynchronous
-};*/
-
 export default {
 	router: router,
 	loginGuard: loginGuard,
-	//checkLogin: checkLogin,
 	checkLogin: isLoggedIn
-	//checkLoginSynchronous: checkLoginSynchronous
 }
