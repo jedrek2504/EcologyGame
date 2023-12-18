@@ -40,11 +40,10 @@ router.post('/post', async (req, res) => {
         }
 
         const { title, content } = req.body;
-        const id = "1"; /* todo - Generate a unique ID for the post */
-        const forumPost = new ForumPost(id, title, content, user);
-        const postCreated = await FM.addPost(user, forumPost);
+        const forumPost = new ForumPost("", title, content, user); // ID is set later
+        const postId = await FM.addPost(user, forumPost);
 
-        if (!postCreated) {
+        if (postId) {
             res.redirect('/forum');
         } else {
             res.status(500).send('Failed to create post');

@@ -30,16 +30,17 @@ class ForumModule {
         return ForumModule.instance;
     }
 
-    public async addPost(user: ForumUser, post: ForumPost): Promise<boolean> {
+    public async addPost(user: ForumUser, post: ForumPost): Promise<string | false> {
         try {
-            const succeeded = await this.forumMediator.registerPost(user, post);
-            if (succeeded) {
+            const postId = await this.forumMediator.registerPost(user, post);
+            if (postId) {
+                post.setIdentifier(postId); // Set the post ID
                 this.postList.addPost(post);
                 const notification = new UserNotification();
                 notification.setTitle("New Forum Post");
                 notification.setMessage(`A new post titled '${post.getName()}' has been added.`);
                 this.notificationManager.notifyUser(user.getId(), notification);
-                return true;
+                return postId;
             }
             return false;
         } catch (error) {

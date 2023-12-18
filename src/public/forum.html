@@ -17,17 +17,13 @@
     <% posts.forEach(post => { %>
     <li>
         <!-- Title with a link to the display page for each post -->
-        <h2><a href="/forum/post/<%= post.getIdentifier() %>"><%= post.name %></a></h2>
+        <h2><a href="/forum/post/<%= post.post_id %>"><%= post.title %></a></h2>
         <!-- Display author of the post -->
-        <small>Posted by: <%= post.creator.getUsername() %></small>
-
-        <!-- Form for deleting the post -->
-        <form action="/forum/delete" method="post">
-            <input type="hidden" name="postId" value="<%= post.getIdentifier() %>">
-            <button type="submit">Delete Post</button>
-        </form>
+        <small>Posted by: <%= post.creator_username %> <!-- Adjust as per your data structure --></small>
+        <!-- Other post details -->
     </li>
     <% }); %>
+
 </ul>
 <% } else { %>
 <p>No posts to display.</p>

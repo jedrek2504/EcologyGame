@@ -119,7 +119,8 @@ const ForumPost = sequelize.define("ForumPost", {
 		allowNull: false,
 		unique: true,
 		primaryKey: true,
-	},
+        autoIncrement: true
+    },
 	creator_id: {
 		type: DataTypes.STRING,
 		allowNull: false,
