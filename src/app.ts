@@ -18,6 +18,7 @@ import ejs from 'ejs';
 import indexRouter from './routes/index.js';
 //const ummUsers = require('./modules/user_management/routes/users.cjs');
 import ummUsers from './modules/user_management/routes/users.js';
+import ummProfile from './modules/user_management/routes/profile.js'
 import forum from "./modules/forum/routes/forum.js";
 //const ummAPI = require('./modules/user_management/routes/api.js');
 //const ummUsers = require('./modules/user_management/routes/users.js');
@@ -41,10 +42,11 @@ app.set("views", "./public");
 app.set('view engine', 'ejs');
 
 app.use("/umm/users", ummUsers.router);
-app.use("/lbm/board", lbmUsers.router);
+
 //app.use(ummUsers.checkLogin);
 app.use(ummUsers.loginGuard);
-
+app.use("/umm/users", ummProfile.router);
+app.use("/lbm/board", lbmUsers.router);
 app.use('/', indexRouter);
 app.use('/forum', forum.router);
 app.use('/', gameCoreRouter);

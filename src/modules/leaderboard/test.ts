@@ -80,7 +80,7 @@ async function loadTopUsers(): Promise<void> {
     }
 }
 loadTopUsers();
-export { topUsersExport };
+export { topUsersExport, loadTopUsers };
 /*getTopUsers()
 .then((topUsers : LeaderboardUser[])=>{
     console.log("Top Users:", topUsers);

@@ -22,14 +22,16 @@ router.get('/getScore',async function(req : any, res : any, next : any) {
   user = <GameUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
   gameBoard = new GameBoard(0,0);
   Promise.all([user.getScore(), user.getUsername()])
-  .then(([score, username]) => {
+  .then(async ([score, username]) => {
+    ///<for integration-1 demonstration>
+    await user.setScore(score.valueOf() + 1);
+    ///</for integration-1 demonstration>
     res.json({ score, username });
   })
   .catch((error) => {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   });
-  
 });
 
 router.post('/game', function (req, res) {

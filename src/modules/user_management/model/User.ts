@@ -31,14 +31,23 @@ export class User implements GameUser, ForumUser {
     /*
         Same here
     */
-    private dbSave(fields : any) : boolean {
-        let succeeded : boolean = false;
-        (async () => {
+    private async dbSave(fields : any) : Promise<void> {
+        //let succeeded : boolean = false;
+        /*(async () => {
             if (await (this.dbUser as Model).save({ fields: fields})) {
                 succeeded = true;
             }
-        })();
-        return succeeded;
+        })();*/
+        
+        //return succeeded;
+
+        if (await (this.dbUser as Model).save({ fields: fields})) {
+            return;
+        }
+        else {
+            //return false;
+            throw new Error(`Failed to save fields ${fields} the database`);
+        }
     }
 
     constructor(id : Number, sessionID? : string) {
@@ -87,12 +96,20 @@ export class User implements GameUser, ForumUser {
             if (!this.fetched) {
                 this.dbUserFetch().then(()=>{
                     //resolve(this.dbUser.score);
-                    if (!this.dbSave(['score'])) {
-                        reject(new Error(`Failed to store score=${score} to database`));
-                    }
+                    
                     this.dbUser.score = score;
-                    //resolve(this.dbUser.score);
-                    resolve();
+                    this.dbSave(['score'])
+                    .then(()=>{
+                        resolve();
+                    })
+                    .catch((e : Error) => {
+                        reject(new Error(`Failed to store score=${score} to database`));
+                    });
+                    //if (!this.dbSave(['score'])) {
+                    //    reject(new Error(`Failed to store score=${score} to database`));
+                    //}
+                    ////resolve(this.dbUser.score);
+                    //resolve();
                 })
                 .catch((e) => {
                     reject(e);
@@ -100,7 +117,14 @@ export class User implements GameUser, ForumUser {
             }
             else {
                 this.dbUser.score = score;
-                resolve();
+                this.dbSave(['score']).then(resolve).catch((e : Error) => {
+                    reject(new Error(`Failed to store score=${score} to database`));
+                });
+
+                //if (!this.dbSave(['score'])) {
+                //    reject(new Error(`Failed to store score=${score} to database`));
+                //}
+                //resolve();
             }
         });
 
@@ -144,7 +168,9 @@ export class User implements GameUser, ForumUser {
         /*let succeeded : boolean = false;
         this.dbSave(['username'], (s : boolean) => succeeded = s);
         return succeeded;*/
-        return this.dbSave(['username']);
+        
+        throw Error("Wrong implementation");
+        ////return this.dbSave(['username']);
     }
     getEmail() : string {
         return this.dbUser.email;
@@ -154,14 +180,17 @@ export class User implements GameUser, ForumUser {
         /*let succeeded : boolean = false;
         this.dbSave(['email'], (s : boolean) => succeeded = s);
         return succeeded;*/
-        return this.dbSave(['email']);
+
+        throw Error("Wrong implementation");
+        ////return this.dbSave(['email']);
     }
     hasContributedToForum() : boolean {
         return this.dbUser.is_forum_contributor;
     }
     markAsForumContributor() : boolean {
         this.dbUser.is_forum_contributor = true;
-        return this.dbSave(['is_forum_contributor']);
+        throw Error("Wrong implementation");
+        //return this.dbSave(['is_forum_contributor']);
     }
 
 

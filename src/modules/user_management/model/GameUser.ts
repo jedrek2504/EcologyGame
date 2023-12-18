@@ -5,5 +5,5 @@ import { LeaderboardUser } from "./LeaderboardUser.js"
  * The objects are synchronized with the database, as the class acts as a database DAO with restricted write access
  */
 export interface GameUser extends LeaderboardUser {
-    setScore(score : number) : Promise<void>;
+    setScore(score : Number) : Promise<void>;
 }
