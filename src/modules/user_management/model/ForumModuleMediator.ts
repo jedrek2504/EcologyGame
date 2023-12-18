@@ -58,7 +58,7 @@ export class ForumModuleMediator implements ForumMediator {
 		const returnable = [];
 
 		for (const post of items) {
-			const postHelper: any = PostHelper.createInstance(new User(parseInt(post.post_id)), JSON.parse(post.content), post.title, post.post_id);
+			const postHelper: any = PostHelper.createInstance(new User(parseInt(post.creator_id)), JSON.parse(post.content), post.title, post.post_id);
 			postHelper.creatorUsername = await postHelper.creator.getUsername();
 			returnable.push(postHelper);
 		}
