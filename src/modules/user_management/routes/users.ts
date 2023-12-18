@@ -69,7 +69,6 @@ router.post("/login", async (req : any, res : any, next : any) => {
 	if (req.body.username && req.body.password) {
         const user : any = await db.Person.findOne({where: {username: req.body.username}});
 		if (user) {
-			console.log("FOUNDFOUND")
 			if (user.password == req.body.password) {
 				let generatedId;
 				do {

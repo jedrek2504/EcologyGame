@@ -7,8 +7,18 @@ router.get('/leaderboard', (req, res) => {
     res.sendFile('leaderboard.html', { root: './public' });
 });
 
-router.get('/json/leaderboard', (req, res) => {
-   res.json(top);
+router.get('/json/leaderboard', async (req, res) => {
+	const returnable = [];
+
+	for (const user of top) {
+		const newUser: any = user;
+		newUser.dbUser = {
+			username: await user.getUsername(),
+			score: await user.getScore(),
+		};
+	}
+
+	res.json(top);
 });
 
 export default {
