@@ -10,6 +10,7 @@ import logger from 'morgan';
 import cors from 'cors';
 ////var expressLayouts = require('express-ejs-layouts'); 
 import expressLayouts from 'express-ejs-layouts';
+import bodyParser from 'body-parser';
 
 import ejs from 'ejs';
 
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 app.use(expressLayouts);
+app.use(bodyParser.urlencoded({ extended: true }))
 
 ////app.engine('html', require('ejs').renderFile);
 app.engine('html', ejs.renderFile);

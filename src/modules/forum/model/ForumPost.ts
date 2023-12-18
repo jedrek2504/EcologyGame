@@ -31,7 +31,6 @@ export class ForumPost implements Postable {
     }
 
     getDataObject(): any {
-
         return {
             content: this.content,
             date: this.timestamp
