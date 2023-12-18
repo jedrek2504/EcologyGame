@@ -69,10 +69,22 @@ console.log("Ranking (show user):", rankingRemoveUser);
 function getTopUsers(): Promise<LeaderboardUser[]> {
     return ummUserManager.getUsers((user: LeaderboardUser) => true);
 }
-
-getTopUsers()
+let topUsersExport: LeaderboardUser[] = [];
+async function loadTopUsers(): Promise<void> {
+    try {
+        const topUsers = await getTopUsers();
+        topUsersExport = topUsers;
+        console.log("Top Users:", topUsers);
+    } catch (e) {
+        console.error(`UMM error:`);
+    }
+}
+loadTopUsers();
+export { topUsersExport };
+/*getTopUsers()
 .then((topUsers : LeaderboardUser[])=>{
     console.log("Top Users:", topUsers);
 }).catch((e)=>{
     console.error(`UMM error: ${e.message}`);
 })
+ */
