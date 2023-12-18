@@ -3,6 +3,8 @@ import {ForumUser} from './ForumUser.js'
 
 import db from "../database.js"
 import { Postable } from './Postable.js';
+import UserManager from './UserManager.js';
+import { User } from './User.js';
 
 export class ForumModuleMediator implements ForumMediator {
 	/**
@@ -52,20 +54,30 @@ export class ForumModuleMediator implements ForumMediator {
 				creator_id: user.getId()
 			}
 		});
-        return items.map((post) => {
-			/*return {
-				post_id: post.post_id,
-				user_id: post.user_id,
-				content: post.content,
-				title: post.title,
-				parent_id: post.parent_id,
-				timestamp: post.created_at,
-			}*/
-            return PostHelper.createInstance(post.user_id,
-                                            JSON.parse(post.content), 
-                                            post.title, 
-                                            post.post_id);
-		});
+
+		const returnable = [];
+
+		for (const post of items) {
+			const postHelper: any = PostHelper.createInstance(new User(parseInt(post.post_id)), JSON.parse(post.content), post.title, post.post_id);
+			postHelper.creatorUsername = await postHelper.creator.getUsername();
+			returnable.push(postHelper);
+		}
+
+		return returnable;
+
+        // return items.map(async (post) => {
+		// 	/*return {
+		// 		post_id: post.post_id,
+		// 		user_id: post.user_id,
+		// 		content: post.content,
+		// 		title: post.title,
+		// 		parent_id: post.parent_id,
+		// 		timestamp: post.created_at,
+		// 	}*/
+		// 	let postHelper: any = PostHelper.createInstance(new User(parseInt(post.post_id)), JSON.parse(post.content), post.title, post.post_id);
+		// 	postHelper
+        //     return postHelper;
+		// });
     }
 
     private static _instance: ForumModuleMediator
@@ -75,7 +87,7 @@ export class ForumModuleMediator implements ForumMediator {
     }
 }
 
-class PostHelper {
+class PostHelper implements Postable {
     creator : ForumUser;
     dataObject : any;
     name : string;
@@ -86,6 +98,18 @@ class PostHelper {
         this.name = name;
         this.identifier = identifier;
     }
+	getCreator(): ForumUser {
+		return this.creator;
+	}
+	getDataObject() {
+		return this.dataObject;
+	}
+	getName(): string {
+		return this.name;
+	}
+	getIdentifier(): string {
+		return this.identifier;
+	}
     static createInstance(creator : ForumUser, dataObject : any, name : string, identifier : string) : PostHelper {
         return new PostHelper(creator, dataObject, name, identifier);
     }

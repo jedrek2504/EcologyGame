@@ -120,21 +120,9 @@ export class User implements GameUser, ForumUser {
 
         ////return this.dbSave(['score']);
     }
-    getUsername() : Promise<string> {
-        return new Promise<string>((resolve, reject)=>{
-            if (!this.fetched) {
-                this.dbUserFetch().then(()=>{
-                    resolve(this.dbUser.score);
-                })
-                .catch((e) => {
-                    reject(e);
-                });
-            }
-            else {
-                resolve(this.dbUser.username);
-            }
-        });
-        //return this.dbUser.username;
+    async getUsername() : Promise<string> {
+		if (!this.fetched) await this.dbUserFetch();
+		return this.dbUser.username;
     }
     setUsername(username : string) : boolean { /*{{{CHANGE THIS AND FURTHER}}} */
         /*return new Promise<string>((resolve, reject)=>{

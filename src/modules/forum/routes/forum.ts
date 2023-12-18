@@ -21,6 +21,7 @@ router.get('/', async function (req, res) {
 
         res.locals.posts = posts;
         // Render the forum page with posts
+
         res.render('forum.html', {
             title: 'Forum',
             posts: posts,
