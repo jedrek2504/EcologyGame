@@ -17,10 +17,7 @@
     <% posts.forEach(post => { %>
     <li>
         <!-- Title with a link to the display page for each post -->
-        <h2><a href="/forum/post/<%= post.post_id %>"><%= post.title %></a></h2>
-        <!-- Display author of the post -->
-        <small>Posted by: <%= post.creator_username %> <!-- Adjust as per your data structure --></small>
-        <!-- Other post details -->
+        <h2><a href="/forum/post/<%= post.getIdentifier() %>"><%= post.getName() %></a></h2>
     </li>
     <% }); %>
 
