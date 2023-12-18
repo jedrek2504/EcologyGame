@@ -20,6 +20,7 @@ router.get('/', async function (req, res) {
         const posts = await UMM.ForumMediator.postList(user);
 
         // Render the forum page with posts
+
         res.render('forum.html', {
             title: 'Forum',
             posts: posts,

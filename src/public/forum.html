@@ -19,7 +19,7 @@
         <!-- Title with a link to the display page for each post -->
         <h2><a href="/forum/post/<%= post.getIdentifier() %>"><%= post.name %></a></h2>
         <!-- Display author of the post -->
-        <small>Posted by: <%= post.creator.getUsername() %></small>
+        <small>Posted by: <%= post.creatorUsername %></small>
 
         <!-- Form for deleting the post -->
         <form action="/forum/delete" method="post">
