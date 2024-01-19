@@ -6,11 +6,12 @@ export class GameBoard{
     private dailyTasks: DailyTask[] = [];
     private winStreak : number;
 
-    constructor(progress: number, winStreak: number){
+    constructor(progress: number, winStreak: number, challengeStorage: ChallengeStorage){
         this.progress = progress;
         this.winStreak = winStreak;
+        
         for (let i = 0; i < 5; i++) {
-            this.dailyTasks.push(new DailyTask(i,false,false,new Date(),new ChallengeStorage(),"1"));
+            this.dailyTasks.push(new DailyTask(i,false,false,new Date(),challengeStorage,"1"));
           }
     }
 

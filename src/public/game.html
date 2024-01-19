@@ -1,10 +1,14 @@
 <h1 class="text-center">Ecology Game</h1>
 <div class="row">
     <div class="col-md-4" id="score"></div>
-    <di class="col-md-8 text-center" id="username"></di>
+    <div class="col-md-8 text-center" id="username"></div>
 </div>
 <div class="container-fluid text-center">
-    <button id="dailyTaskButton" data-toggle="1"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">1</span></button>
+    <button class="dailyTaskButton" data-toggle="1"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">1</span></button>
+    <button class="dailyTaskButton" data-toggle="2"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">2</span></button>
+    <button class="dailyTaskButton" data-toggle="3"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">3</span></button>
+    <button class="dailyTaskButton" data-toggle="4"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">4</span></button>
+    <button class="dailyTaskButton" data-toggle="5"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">5</span></button>
 </div>
 <div class="mymodal border shadow" id="dailytask" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width:500px; height:500px; z-index: 100; background-color: #ffffff;">
     <div class="col-12 text-center">DailyTask</div>
@@ -40,7 +44,7 @@ $(document).ready(function () {
         $("#display").empty();
     });
 
-    $('#dailyTaskButton').on('click', function () {
+    $('.dailyTaskButton').on('click', function () {
   const dataToggleValue = $(this).data('toggle');
   
   // Send a POST request with the data-toggle value in the request body
@@ -51,7 +55,7 @@ $(document).ready(function () {
     data: JSON.stringify({ toggleValue: dataToggleValue }), // Convert to JSON string
     dataType: 'json',
     success: function (response) {
-      const array = response.test;
+      const array = response.desc;
       for(let i=0; i < array.length; i++){
         const newText = array[i];
 
