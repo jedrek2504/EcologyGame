@@ -1,21 +1,127 @@
-<h1 class="text-center">Ecology Game</h1>
-<div class="row">
-    <div class="col-md-4" id="score"></div>
-    <div class="col-md-8 text-center" id="username"></div>
-</div>
-<div class="container-fluid text-center">
-    <button class="dailyTaskButton" data-toggle="1"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">1</span></button>
-    <button class="dailyTaskButton" data-toggle="2"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">2</span></button>
-    <button class="dailyTaskButton" data-toggle="3"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">3</span></button>
-    <button class="dailyTaskButton" data-toggle="4"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">4</span></button>
-    <button class="dailyTaskButton" data-toggle="5"><span class="text-center" style="border-radius: 50%; font-size: 4em; padding-left: 20px; padding-right: 25px; border:4px solid #00acfb; background-color: #ffffff;">5</span></button>
-</div>
-<div class="mymodal border shadow" id="dailytask" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width:500px; height:500px; z-index: 100; background-color: #ffffff;">
-    <div class="col-12 text-center">DailyTask</div>
-    <div id="display"></div>
-    <button id="close" class="btn btn-danger mx-auto d-block">CLOSE</button>
-</div>
+<style>
+  .background {
+    background-color: rgba(34, 34, 34, 1);
+    background-image: linear-gradient(0deg, rgba(34, 34, 34, 1) 20%, rgba(67, 67, 67, 1) 100%);
+    border-radius: 1.5em;
+    color: #fff;
+  }
 
+  h1{
+    text-shadow: 2px 2px 5px #000;
+    font-size: 2em;
+  }
+
+  #myModal {
+    color: #000;
+  }
+
+  .dailyTaskButton {
+    border-radius: 50%;
+    font-size: 4em;
+    box-shadow: 0 0 20px #0f0f0f;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+
+  .dailyTaskButton:hover {
+    color: #fff !important;
+  }
+
+  .hint {
+    color: #fff;
+    width: 30%;
+    background-color: #0f0f0f;
+  }
+
+  .progress-container {
+    width: 40%;
+    background-color: #565656;
+    border-radius: 2em;
+    position: absolute;
+    top: 5%;
+    left: 57%;
+  }
+
+  .progress-bar {
+    width: 0;
+    height: 30px;
+    background-color: rgba(193, 112, 0, 1);
+    background-image: linear-gradient(90deg, rgba(193, 112, 0, 1) 16%, rgba(244, 144, 0, 1) 60%);
+    text-align: center;
+    color: white;
+    border-radius: 2em;
+  }
+
+  .star {
+    position: absolute;
+    top: 5%;
+    left: 54%;
+    font-size: 1.5em;
+  }
+</style>
+<div class="background p-4">
+  <h1 class="text-center">Complete all tasks and let the earth breathe!</h1>
+  <div class="row justify-content-between">
+    <div class="col-md-4" id="score"></div>
+    <div class="col-md-4 text-center" id="username"></div>
+  </div>
+  <div class="container-fluid text-center gameboard mt-3" style="position: relative; height: 90vh;">
+    <i class="fa-solid fa-star star" style="color: #fff200;"></i>
+    <div class="progress-container shadow">
+      <div class="progress-bar" id="myProgressBar">20%</div>
+    </div>
+    <div class="hint px-5 py-4 shadow rounded text-justify" style="position: absolute; top:20%; left:10%;"><i
+        class="fa-solid fa-lightbulb" style="color:#ded416; font-size: 2.5em;"></i> Plant native species in your garden
+      to
+      support local ecosystems; native plants provide food and habitat for local wildlife while requiring fewer
+      resources
+      to thrive.</div>
+    <div class="hint px-5 py-4 shadow rounded text-justify" style="position: absolute; top:60%; left:65%;"><i
+        class="fa-solid fa-lightbulb" style="color:#ded416; font-size: 2.5em;"></i> Cutting down on single-use plastics
+      helps safeguard marine ecosystems and protect marine life from harmful pollution.</div>
+    <button data-number="1" type="button" class="dailyTaskButton text-center" data-toggle="modal" data-target="#myModal"
+      style="background-color: #3d9602; border: 4px solid #4dc000; color: #4dc000; padding: 18px 27px; position: absolute; top: 1%;left:40%;"><i
+        class="fa-solid fa-leaf"></i></button>
+    <button data-number="2" type="button" class="dailyTaskButton text-center" data-toggle="modal" data-target="#myModal"
+      style="background-color: #26a7de; border: 4px solid #1f8ab8; color: #1f8ab8; padding: 18px 34px; position: absolute; top: 20%;left:50%;"><i
+        class="fa-solid fa-droplet"></i></button>
+    <button data-number="3" type="button" class="dailyTaskButton text-center" data-toggle="modal" data-target="#myModal"
+      style="background-color: #ded416; border: 4px solid #b8b008; color: #b8b008; padding: 18px 32px; position: absolute; top: 40%;left:55%;"><i
+        class="fa-solid fa-trash"></i></button>
+    <button data-number="4" type="button" class="dailyTaskButton text-center" data-toggle="modal" data-target="#myModal"
+      style="background-color: #8549ba; border: 4px solid #a560e8; color: #a560e8; padding: 18px 30px; position: absolute; top: 60%;left:45%;"><i
+        class="fa-solid fa-tree"></i></button>
+    <button data-number="5" type="button" class="dailyTaskButton text-center" data-toggle="modal" data-target="#myModal"
+      style="background-color: #F49000; border: 4px solid #c17000; color: #c17000; padding: 18px 34px; position: absolute; top: 80%;left:35%;"><i
+        class="fa-brands fa-pagelines"></i></button>
+    <button type="button" id="reset" class="btn btn-warning" style="position: absolute; top:90%; left:90%;">reset</button>
+  </div>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Daily task</h4>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div id="display" data-number=""></div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button id="save" type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="public/js/gameScript.js" type="text/javascript"></script>
