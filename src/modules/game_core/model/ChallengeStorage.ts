@@ -35,7 +35,7 @@ export class ChallengeStorage {
             console.log("challenges loaded successfully");
         } catch (error) {
             console.error('Error reading challenges file:', error);
-            throw error; // Rethrow the error to handle it outside
+            throw error; 
         }
     }
 

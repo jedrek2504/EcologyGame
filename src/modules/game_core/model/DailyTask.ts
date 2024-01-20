@@ -31,6 +31,7 @@ export class DailyTask {
 
     public markAsCompleted() {
         this.isAvailable = true;
+        this.isCompleted = true;
     }
 
     public getTaskId(): Number {
