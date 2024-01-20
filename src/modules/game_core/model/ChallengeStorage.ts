@@ -23,7 +23,7 @@ export class ChallengeStorage {
 
     private async loadChallengesFromFile(): Promise<void> {
         try {
-            const filePath = '/Users/krzysztof/Desktop/EcologyGame/src/modules/game_core/model/challenges.json';
+            const filePath = 'data/challenges.json';
     
             const fileContent = await fs.promises.readFile(filePath, 'utf-8');
             const jsonData = JSON.parse(fileContent);
