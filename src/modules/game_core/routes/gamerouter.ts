@@ -14,20 +14,32 @@ let user: GameUser;
 let userInstance: User;
 let gameBoard: GameBoard;
 let challengeStorage: ChallengeStorage;
+let previousSessionKey: string | null = null;
 
 router.get('/game', function (req: any, res: any, next: any) {
   res.render('game.html', { title: 'Express' });
 });
 
+function hasSessionKeyChanged(currentSessionKey: string): boolean {
+  if (!previousSessionKey) {
+    return false;
+  }
+  return currentSessionKey !== previousSessionKey;
+}
+
 router.get('/getScore', async function (req: any, res: any, next: any) {
+  const currentSessionKey = req.cookies["login_id"];
+
+  const sessionKeyChanged = hasSessionKeyChanged(currentSessionKey);
+
   user = <GameUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
   challengeStorage = new ChallengeStorage();
   await challengeStorage.initialize();
 
-  if (!gameBoard) {
-    // Initialize gameBoard only if it's null
+  if (!gameBoard || currentSessionKey) {
     gameBoard = new GameBoard(0, 0, challengeStorage);
   }
+
 
   try {
     const [score, username] = await Promise.all([user.getScore(), user.getUsername()]);
