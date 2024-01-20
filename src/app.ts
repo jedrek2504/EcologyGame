@@ -41,6 +41,8 @@ app.engine('html', ejs.renderFile);
 app.set("views", "./public");
 app.set('view engine', 'ejs');
 
+app.use('/public', express.static('public'));
+
 app.use("/umm/users", ummUsers.router);
 
 //app.use(ummUsers.checkLogin);
