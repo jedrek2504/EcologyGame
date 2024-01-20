@@ -26,6 +26,9 @@
         xhr.onload = function() {
             if (this.status === 200) {
                 var users = JSON.parse(this.responseText);
+                users.sort(function(a, b) {
+                    return b.dbUser.score - a.dbUser.score;
+                });
                 var tableBody = document.getElementById('leaderboardTable').getElementsByTagName('tbody')[0];
                 users.forEach(function(user) {
                     var row = tableBody.insertRow();
