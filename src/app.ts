@@ -42,6 +42,7 @@ app.set("views", "./public");
 app.set('view engine', 'ejs');
 
 app.use('/public', express.static('public'));
+app.use('/favicon.ico', express.static('favicon.ico'));
 
 app.use("/umm/users", ummUsers.router);
 
