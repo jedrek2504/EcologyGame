@@ -29,6 +29,11 @@ export class DailyTask {
         return this.isCompleted;
     }
 
+    public reset() {
+        this.isAvailable = false;
+        this.isCompleted = false;
+    }
+
     public markAsCompleted() {
         this.isAvailable = true;
         this.isCompleted = true;

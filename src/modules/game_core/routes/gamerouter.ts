@@ -98,6 +98,9 @@ router.get('/reset', async function (req: any, res: any, next: any) {
     await user.setScore(0);
     const [score, username] = await Promise.all([user.getScore(), user.getUsername()]);
     const roundedScore = score.toFixed(2);
+    for(let i =0;i< 5;i++){
+      gameBoard.getTask(i).reset();
+    }
     res.json({ roundedScore, username });
   } catch (error) {
     console.error('Error:', error);
