@@ -32,33 +32,64 @@ function setOrFail(value : any, name : string, cb : (value : any) => void) {
  * @TODO Change so that it is accepts user_id as param (or /profile/:id)
  */
 router.get('/profile', async (req: any, res: any, next: any) => {
-    //let user : GameUser|LeaderboardUser|ForumUser|null = await UserManager.getUserBySessionKey(req.cookies['login_id']);
-    //let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UserManager.getUserBySessionKey(req.cookies['login_id']);
-    let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+    /*let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
     let user : User = User.getInstance(glfUser?.getId() as unknown as Number);
 
     if (user) {
-        /*res.locals.username = await user.getUsername(); 
-        if (!res.locals.username) {
-            res.locals.username = "Failed to fetch username";
-        }*/
-
         res.locals.username="";
         res.locals.score=0;
         res.locals.email="";
         res.locals.is_forum_contributor=false;
-        /*setOrFail(reference(res.locals.username), await user.getUsername(), "username");
-        setOrFail(reference(res.locals.score), await user.getScore(), "score");
-        setOrFail(reference(res.locals.email), await user.getEmail(), "email");
-        setOrFail(reference(res.locals.is_forum_contributor), await user.hasContributedToForum(), "is_forum_contributor");*/
         setOrFail(await user.getUsername(), "username", (value : any) => res.locals.username = value);
         setOrFail(await user.getScore(), "score", (value : any) => res.locals.score = value);
         setOrFail(await user.getEmail(), "email", (value : any) => res.locals.email = value);
         setOrFail(await user.hasContributedToForum(), "is_forum_contributor", (value : any) => res.locals.is_forum_contributor = value);
     }
     
+    res.render('profile', { title: 'Profile' });*/
+
+
+    UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]).then((user : GameUser|LeaderboardUser|ForumUser|null) => {
+        if (user) {
+            res.redirect(`/umm/users/profile/${user.getId()}`);
+        }
+        else {
+            console.info("Current user null or undefined")
+            //sign out
+            res.redirect('/umm/users/logout');
+        }
+    }).catch((err)=>{
+        console.log("IntermoduleUserManager::getUserBySessionKey() promise failed, error: " + err);
+    });
+});
+
+/**
+ * 
+ */
+router.get('/profile/:id', async (req: any, res: any, next: any) => {
+    let user : User = User.getInstance(req.params.id);
+    if (user) {
+        res.locals.username="";
+        res.locals.score=0;
+        res.locals.email="";
+        res.locals.is_forum_contributor=false;
+        setOrFail(await user.getUsername(), "username", (value : any) => res.locals.username = value);
+        setOrFail(await user.getScore(), "score", (value : any) => res.locals.score = value);
+        setOrFail(await user.getEmail(), "email", (value : any) => res.locals.email = value);
+        setOrFail(await user.hasContributedToForum(), "is_forum_contributor", (value : any) => res.locals.is_forum_contributor = value);
+
+        //Check if current user is the same as the profile user
+        let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+        res.locals.is_current_user = false;
+        if (glfUser && (glfUser.getId() == user.getId())) {
+            res.locals.is_current_user = true;
+        }
+    }
+    else {
+        res.locals.username = "Null or undefined user detected";
+    }
+
     res.render('profile', { title: 'Profile' });
-    
 });
 
 router.post('/setemail', async (req: any, res: any, next: any) => {

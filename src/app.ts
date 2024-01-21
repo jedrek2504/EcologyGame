@@ -19,6 +19,7 @@ import indexRouter from './routes/index.js';
 //const ummUsers = require('./modules/user_management/routes/users.cjs');
 import ummUsers from './modules/user_management/routes/users.js';
 import ummProfile from './modules/user_management/routes/profile.js'
+import ummExplorer from './modules/user_management/routes/explorer.js';
 import forum from "./modules/forum/routes/forum.js";
 //const ummAPI = require('./modules/user_management/routes/api.js');
 //const ummUsers = require('./modules/user_management/routes/users.js');
@@ -49,6 +50,7 @@ app.use("/umm/users", ummUsers.router);
 //app.use(ummUsers.checkLogin);
 app.use(ummUsers.loginGuard);
 app.use("/umm/users", ummProfile.router);
+app.use("/umm", ummExplorer.router);
 app.use("/lbm/board", lbmUsers.router);
 app.use('/', indexRouter);
 app.use('/forum', forum.router);
