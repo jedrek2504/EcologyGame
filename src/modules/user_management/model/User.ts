@@ -66,8 +66,10 @@ export class User implements GameUser, ForumUser {
     }*/
 
     async getScore() : Promise<Number> {
+        console.log("GET SCORE");
         return new Promise<Number>((resolve, reject)=>{
             if (!this.fetched) {
+                console.log("Score not fetched, fetching...");
                 this.dbUserFetch().then(()=>{
                     resolve(this.dbUser.score);
                 })
@@ -76,6 +78,8 @@ export class User implements GameUser, ForumUser {
                 });
             }
             else {
+                console.log("Score already fetched");
+                console.log(this.dbUser);
                 resolve(this.dbUser.score);
             }
         });
@@ -175,14 +179,42 @@ export class User implements GameUser, ForumUser {
     getEmail() : string {
         return this.dbUser.email;
     }
-    setEmail(email : string) : boolean {
-        this.dbUser.email = email;
-        /*let succeeded : boolean = false;
-        this.dbSave(['email'], (s : boolean) => succeeded = s);
-        return succeeded;*/
+    setEmail(email : string) : Promise<void> {
+        return new Promise((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    //resolve(this.dbUser.score);
+                    
+                    this.dbUser.email = email;
+                    this.dbSave(['email'])
+                    .then(()=>{
+                        resolve();
+                    })
+                    .catch((e : Error) => {
+                        reject(new Error(`Failed to store email=${email} to database`));
+                    });
+                    //if (!this.dbSave(['score'])) {
+                    //    reject(new Error(`Failed to store score=${score} to database`));
+                    //}
+                    ////resolve(this.dbUser.score);
+                    //resolve();
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                this.dbUser.email = email;
+                this.dbSave(['email']).then(resolve).catch((e : Error) => {
+                    reject(new Error(`Failed to store email=${email} to database`));
+                });
 
-        throw Error("Wrong implementation");
-        ////return this.dbSave(['email']);
+                //if (!this.dbSave(['email'])) {
+                //    reject(new Error(`Failed to store email=${email} to database`));
+                //}
+                //resolve();
+            }
+        });
     }
     hasContributedToForum() : boolean {
         return this.dbUser.is_forum_contributor;
