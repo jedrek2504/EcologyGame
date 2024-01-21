@@ -17,6 +17,21 @@
         <%- body %>
       </div>
     </main>
+    <img id="mascot" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/29599/eco-man-clipart-xl.png"/>
+
+    <style>
+      #mascot {
+        opacity: 0.1;
+        /*position: absolute;*/
+        transform: scale(1.5) rotate(30deg);
+        /*z-index: -1;*/
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 100px;
+      }
+    </style>
+
     <footer><%- include('partials/footer'); %></footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
