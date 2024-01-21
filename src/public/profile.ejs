@@ -44,13 +44,17 @@
 <% } %>
 
 <div style="margin-top: 20px">
-    <h2>Friends</h2>
+    <% if (locals.friends.length > 0) { %>
+        <h2>Friends</h2>
+    <% } else { %>
+        <h2>No friends</h2>
+    <% } %>
     <!--<ul>
         <x for (let i = 0; i < locals.friends.length; i++) { x>
             <li><x= locals.friends[i] x></li>
         <x } x>
     </ul>-->
-    <div class="friends-row">
+    <!--<div class="friends-row">
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
@@ -70,7 +74,19 @@
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
         <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
-    </div>
+    </div>-->
+    <% for(let i=0; i<locals.friends.length; i++){ %>
+        <% if(i%5==0){ %>
+            <div class="friends-row">
+        <% } %>
+        <span><img class="friend-img" src="<%= locals.friends[i].photo %>" title="<%= locals.friends[i].username %>" onclick="navigateToProfile('<%= locals.friends[i].user_id %>')" width="50px" height="50px"/></span>
+        <% if(i%5==4){ %>
+            </div>
+        <% } %>
+    <% } %>
+    <% if (locals.friends.length%5!=0){ %>
+        </div>
+    <% } %>
 </div>
 
 
@@ -256,4 +272,7 @@
         });
     }
 
+    function navigateToProfile(uid) {
+        window.location.href = `/umm/users/profile/${uid}`;
+    }
 </script>

@@ -102,6 +102,50 @@ function checkIsFriendErrCb(glfUser:GameUser|LeaderboardUser|ForumUser|null, tar
     });
 }
 
+function getFriendsData(user:User) : Promise<{user_id : String, username : string, photo : string}[]> {
+    return new Promise((resolve, reject) => {
+        UMM.IntermoduleCommons.IntermoduleUserRelationshipManager.listUserRelationships(user.getId()).then(async(relationships : Relationship[] | null) => {
+            if (relationships) {
+                /*let friends : {user_id : String, username : string, photo : string}[] = [];
+                relationships.forEach((r : Relationship) => {
+                    let friend : User = r.firstUser.getId() == user.getId() ? r.secondUser : r.firstUser;
+                    friends.push({
+                        user_id: friend.getId(),
+                        username: await friend.getUsername(),
+                        photo: await friend.getPhoto()
+                    });
+                });*/
+                let friends = await Promise.all(relationships.map(async (r : Relationship) => {
+                    let friend : User = r.firstUser.getId() == user.getId() ? r.secondUser : r.firstUser;
+                    return {
+                        user_id: friend.getId(),
+                        username: await friend.getUsername(),
+                        photo: await friend.getPhoto()
+                    };
+                }));
+                resolve(friends);
+            }
+            else {
+                reject("Falsy relationships array encountered!");
+            }
+        }).catch((err : any) => {
+            reject(`Error while listing user relationships: ${err}`);
+        });
+    });
+}
+
+function getFriendsDataErrCb(user:User, errCb : (err : any) => void) : Promise<{user_id : String, username : string, photo : string}[]> {
+    return new Promise((resolve, reject) => {
+        getFriendsData(user).then((friends : {user_id : String, username : string, photo : string}[]) => {
+            resolve(friends);
+        }).catch((err : any) => {
+            errCb(err);
+            reject(err);
+        });
+    });
+}
+
+
 /**
  * Get profile of a user by id
  */
@@ -146,6 +190,12 @@ router.get('/profile/:id', async (req: any, res: any, next: any) => {
         res.locals.is_friend = await checkIsFriendErrCb(glfUser, user, (err: any) => {
             console.log(`Error while checking if user is friend: ${err}`);
             res.locals.is_friend = false;
+        });
+
+        // Put all {user_id, username, photo} into an array at res.locals.friends
+        res.locals.friends = await getFriendsDataErrCb(user, (err : any) => {
+            console.log(`Error while fetching friends: ${err}`);
+            res.locals.friends = [];
         });
     }
     else {
