@@ -1,1 +1,137 @@
-<h1><%= locals.username %></h1>
+<img id="profile-photo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/29599/eco-man-clipart-xl.png" width="100px" height="100px"/>
+<div><h1><%= locals.username %></h1>
+    <%if (locals.is_current_user !== true) { %>
+    <span class="friend-adder"><small>+ Force make friend</small></span>
+    <% } %>
+</div>
+<div class="progress-wrapper">
+    <% if (locals.score >= 100) { %>
+        <i class="progress-i">Progress: <%= locals.score %> / 100</i>
+    <% } else if (locals.score >= 50) { %>
+        <i class="progress-i" style="color: darkorange">Progress: <%= locals.score %> / 100</i>
+    <% } else { %>
+        <i class="progress-i" style="color: green; font-weight: bold">Progress: <%= locals.score %> / 100</i>
+    <% } %>
+</div>
+<div>
+    <p>Email: <%= locals.email %> </p>
+    <% if (locals.is_current_user === true) { %>
+    <button class="btn btn-primary" onclick="changeEmail()">Change email</button>
+    <% } %>
+</div>
+
+<% if(locals.is_forum_contributor === true) { %>
+<div style="margin-top: 20px">
+    <h2>Badges</h2>
+    <div class="badges-container">
+        <span><img title="Forum contributor" class="badge-img" src="https://e7.pngegg.com/pngimages/50/845/png-clipart-computer-icons-social-influence-kraken-rum-influencer-marketing-others-orange-logo.png" width="70px" height="70px"/></span>
+    </div>
+</div>
+<% } %>
+
+<div style="margin-top: 20px">
+    <h2>Friends</h2>
+    <!--<ul>
+        <x for (let i = 0; i < locals.friends.length; i++) { x>
+            <li><x= locals.friends[i] x></li>
+        <x } x>
+    </ul>-->
+    <div class="friends-row">
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+    </div>
+    <div class="friends-row">
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+    </div>
+    <div class="friends-row">
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+        <span><img class="friend-img" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/76e9e0c0-0d3d-43d1-9bb3-f62d02193e75/d4gmlog-ad7ddd73-a27c-4582-9878-a543300ff1c8.jpg/v1/fill/w_900,h_927,q_75,strp/neko_x333_by_poppykitten_d4gmlog-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTI3IiwicGF0aCI6IlwvZlwvNzZlOWUwYzAtMGQzZC00M2QxLTliYjMtZjYyZDAyMTkzZTc1XC9kNGdtbG9nLWFkN2RkZDczLWEyN2MtNDU4Mi05ODc4LWE1NDMzMDBmZjFjOC5qcGciLCJ3aWR0aCI6Ijw9OTAwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.tJB0mCNpttFrI0avFHKZH_U6NzvcxjvDSlaTeeUOP5E" width="50px" height="50px"/></span>
+    </div>
+</div>
+
+
+<style>
+    #profile-photo {
+        border-radius: 50%;
+        border-style: dotted;
+        border-color: blue;
+        border-width: 3px;
+    }
+    #profile-photo:hover {
+        opacity: 50%;
+        transform: scale(1.5) rotate(30deg);
+    }
+    .friend-adder {
+        /*background-image: url("https://cdn.iconscout.com/icon/free/png-256/add-user-1641199-1390076.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;*/
+        width: 200px;
+        height: 50px;
+        /*display: inline-block;*/
+        margin-left: 15px;
+        cursor: pointer;
+        background-color: maroon;
+        color: white;
+        padding: 10px;
+    }
+    .friend-adder:hover {
+        background-color: darkred;
+    }
+    h1 {
+        display: inline;
+    }
+    .progress-wrapper {
+        padding: 20px;
+    }
+    .friend-img {
+        border-radius: 50%;
+        border-style: dashed;
+        border-color: maroon;
+        border-width: 2px;
+    }
+    .friend-img:hover {
+        opacity: 50%;
+        border-color: pink;
+        transform: scale(1.5) rotate(30deg);
+    }
+    .badge-img {
+        border-radius: 50%;
+        border-style: solid;
+        border-color: blue;
+    }
+    .badge-img:hover {
+        opacity: 50%;
+    }
+</style>
+<script>
+    function changeEmail() {
+        let newEmail = prompt("Enter new email", "<%= locals.email %>");
+        // Send request to server to change email using jquery ajax and profile.ts /setemail route
+        $.ajax({
+            url: "/umm/users/setemail",
+            type: "POST",
+            data: {
+                email: newEmail
+            },
+            success: function (data) {
+                alert("Email changed successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error changing email! ${err}`);
+            }
+        });
+        
+    }
+</script>
