@@ -92,13 +92,13 @@ const LoginInstance = sequelize.define("LoginInstance", {
 })
 
 const Relationship = sequelize.define("Relationship", {
-    relationship_id: {
+    /*relationship_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
 		unique: true,
         primaryKey: false,
         autoIncrement: true
-    },
+    },*/
     first_user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -116,7 +116,7 @@ const Relationship = sequelize.define("Relationship", {
         fields: ['first_user_id', 'second_user_id']
       }
     ]
-})
+});
 
 const ForumPost = sequelize.define("ForumPost", {
 	post_id: {

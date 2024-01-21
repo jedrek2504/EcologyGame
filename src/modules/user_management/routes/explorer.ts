@@ -9,11 +9,12 @@ import UMM from '../exports/api.js';
 const router = express.Router();
 
 router.get('/community', async (req: any, res: any, next: any) => {
-    // Put all {user_id, photo} into an array at res.locals.users
+    // Put all {user_id, username, photo} into an array at res.locals.users
     UMM.IntermoduleCommons.IntermoduleUserManager.getUsers((u:User)=>true).then(async(users : User[]) => {
         res.locals.users = await Promise.all(users.map(async (u) => {
             return {
                 user_id: u.getId(),
+                username: await u.getUsername(),
                 photo: await u.getPhoto()
             };
         }));

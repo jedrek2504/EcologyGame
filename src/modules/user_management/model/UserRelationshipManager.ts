@@ -14,8 +14,8 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
      * @param target 
      * @returns Relationship instance or null if the database query failed
      */
-    createRelationship(source : User, target : User) : Relationship | null {
-        if (source.getId() == target.getId()) {
+    createRelationship(source : User, target : User) : Promise<void> {
+        /*if (source.getId() == target.getId()) {
             throw Error("Cannot create user relation with himself");
         }
         let relationship = new Relationship(source, target);
@@ -24,7 +24,18 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
         }
         else {
             return null;
-        }
+        }*/
+        return new Promise<void>((resolve, reject) => {
+            if (source.getId() == target.getId()) {
+                reject("Cannot create user relation with himself");
+            }
+            let relationship = new Relationship(source, target);
+            relationship.executeBind().then(() => {
+                resolve();
+            }).catch((error : any) => {
+                reject(`Error while executing relationship bind: ${error}`);
+            });
+        });
     }
 
     /**
@@ -32,13 +43,20 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
      * @param relationship 
      * @returns True if the detabase query was successfully executed
      */
-    deleteRelationship(relationship : Relationship) : boolean {
-        return relationship.destroy();
+    deleteRelationship(relationship : Relationship) : Promise<void> {
+        //return relationship.destroy();
+        return new Promise<void>((resolve, reject) => {
+            relationship.destroy().then(() => {
+                resolve();
+            }).catch((error : any) => {
+                reject(`Error while executing Relationship::destroy(): ${error}`);
+            });
+        });
     }
 
     /**
      * 
-     * @param target 
+     * @param target
      * @returns Array of relationship instances connected to the given user
      * or null if database failed
      */
@@ -49,8 +67,8 @@ export class UserRelationshipManager implements IntermoduleUserRelationshipManag
             let rels : any[] = await db.Relationship.findAll({
                 where: {
                     [Op.or]: [
-                        { a: targetUserID },
-                        { b: targetUserID }
+                        { first_user_id: targetUserID },
+                        { second_user_id: targetUserID }
                     ]
                 }
             });

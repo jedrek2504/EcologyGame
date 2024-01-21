@@ -4,7 +4,14 @@
 <% } %>
 <div><h1><%= locals.username %></h1>
     <%if (locals.is_current_user !== true) { %>
-    <span class="friend-adder"><small>+ Force make friend</small></span>
+        <%if (locals.is_friend === true) { %>
+            <span class="friend-remover" onclick="removeFriend('<%= locals.profile_id %>')"><small>- Remove friend</small></span>
+        %>
+        <% } if (locals.is_friend === false) { %>
+            <span class="friend-adder" onclick="forceAddFriend('<%= locals.profile_id %>')"><small>+ Force make friend</small></span>
+        %>
+        <% } %>
+    
     <% } %>
     <%if (locals.is_current_user === true) { %>
         <button class="btn btn-primary" onclick="changeUsername()">Change username</button>
@@ -95,6 +102,20 @@
     .friend-adder:hover {
         background-color: darkred;
     }
+    .friend-remover {
+        width: 200px;
+        height: 50px;
+        margin-left: 15px;
+        cursor: pointer;
+        background-color: blue;
+        color: white;
+        padding: 10px;
+    }
+    .friend-remover:hover {
+        background-color: blueviolet;
+    }
+
+
     h1 {
         display: inline;
     }
@@ -195,6 +216,42 @@
             },
             error: function (err) {
                 alert(`Error changing password! ${err}`);
+            }
+        });
+    }
+
+    function forceAddFriend(fid) {
+        // Send request to server to add friend using jquery ajax and profile.ts /addfriend route
+        $.ajax({
+            url: "/umm/users/friend",
+            type: "POST",
+            data: {
+                friend_id: fid
+            },
+            success: function (data) {
+                alert("Friend added successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error adding friend! ${err}`);
+            }
+        });
+    }
+
+    function removeFriend(fid) {
+        // Send request to server to remove friend using jquery ajax and profile.ts /removefriend route
+        $.ajax({
+            url: "/umm/users/unfriend",
+            type: "POST",
+            data: {
+                friend_id: fid
+            },
+            success: function (data) {
+                alert("Friend removed successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error removing friend! ${JSON.stringify(err)}`);
             }
         });
     }

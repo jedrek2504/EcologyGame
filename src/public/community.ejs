@@ -17,7 +17,7 @@
         <% if(i%10==0){ %>
             <div class="users-row">
         <% } %>
-        <span><img class="user-img" src="<%= locals.users[i].photo %>" onclick="navigateToProfile('<%= locals.users[i].user_id %>')" width="50px" height="50px"/></span>
+        <span><img class="user-img" src="<%= locals.users[i].photo %>" title="<%= locals.users[i].username %>" onclick="navigateToProfile('<%= locals.users[i].user_id %>')" width="50px" height="50px"/></span>
         <% if(i%10==9){ %>
             </div>
         <% } %>
