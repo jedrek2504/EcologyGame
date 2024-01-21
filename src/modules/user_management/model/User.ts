@@ -152,30 +152,136 @@ export class User implements GameUser, ForumUser {
 		if (!this.fetched) await this.dbUserFetch();
 		return this.dbUser.username;
     }
-    setUsername(username : string) : boolean { /*{{{CHANGE THIS AND FURTHER}}} */
-        /*return new Promise<string>((resolve, reject)=>{
+    setUsername(username : string) : Promise<void> { /*{{{CHANGE THIS AND FURTHER}}} */
+        return new Promise((resolve, reject)=>{
             if (!this.fetched) {
                 this.dbUserFetch().then(()=>{
-                    resolve(this.dbUser.score);
+                    //resolve(this.dbUser.score);
+                    
+                    this.dbUser.username = username;
+                    this.dbSave(['username'])
+                    .then(()=>{
+                        resolve();
+                    })
+                    .catch((e : Error) => {
+                        reject(new Error(`Failed to store username=${username} to database`));
+                    });
+                    //if (!this.dbSave(['score'])) {
+                    //    reject(new Error(`Failed to store score=${score} to database`));
+                    //}
+                    ////resolve(this.dbUser.score);
+                    //resolve();
                 })
                 .catch((e) => {
                     reject(e);
                 });
             }
             else {
-                resolve(this.dbUser.username);
+                this.dbUser.username = username;
+                this.dbSave(['username']).then(resolve).catch((e : Error) => {
+                    reject(new Error(`Failed to store username=${username} to database`));
+                });
+
+                //if (!this.dbSave(['score'])) {
+                //    reject(new Error(`Failed to store score=${score} to database`));
+                //}
+                //resolve();
             }
-        });*/
-
-
-        this.dbUser.username = username;
-        /*let succeeded : boolean = false;
-        this.dbSave(['username'], (s : boolean) => succeeded = s);
-        return succeeded;*/
-        
-        throw Error("Wrong implementation");
-        ////return this.dbSave(['username']);
+        });
     }
+
+    getPhoto() : Promise<string> {
+        return new Promise((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    resolve(this.dbUser.photo);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                resolve(this.dbUser.photo);
+            }
+        });
+    }
+
+    setPhoto(photo : string) : Promise<void> {
+        return new Promise((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    //resolve(this.dbUser.score);
+                    
+                    this.dbUser.photo = photo;
+                    this.dbSave(['photo'])
+                    .then(()=>{
+                        resolve();
+                    })
+                    .catch((e : Error) => {
+                        reject(new Error(`Failed to store photo=${photo} to database`));
+                    });
+                    //if (!this.dbSave(['score'])) {
+                    //    reject(new Error(`Failed to store score=${score} to database`));
+                    //}
+                    ////resolve(this.dbUser.score);
+                    //resolve();
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                this.dbUser.photo = photo;
+                this.dbSave(['photo']).then(resolve).catch((e : Error) => {
+                    reject(new Error(`Failed to store photo=${photo} to database`));
+                });
+
+                //if (!this.dbSave(['score'])) {
+                //    reject(new Error(`Failed to store score=${score} to database`));
+                //}
+                //resolve();
+            }
+        });
+    }
+
+    setPassword(password : string) : Promise<void> {
+        return new Promise((resolve, reject)=>{
+            if (!this.fetched) {
+                this.dbUserFetch().then(()=>{
+                    //resolve(this.dbUser.score);
+                    
+                    this.dbUser.password = password;
+                    this.dbSave(['password'])
+                    .then(()=>{
+                        resolve();
+                    })
+                    .catch((e : Error) => {
+                        reject(new Error(`Failed to store password=${password} to database`));
+                    });
+                    //if (!this.dbSave(['score'])) {
+                    //    reject(new Error(`Failed to store score=${score} to database`));
+                    //}
+                    ////resolve(this.dbUser.score);
+                    //resolve();
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            }
+            else {
+                this.dbUser.password = password;
+                this.dbSave(['password']).then(resolve).catch((e : Error) => {
+                    reject(new Error(`Failed to store password=${password} to database`));
+                });
+
+                //if (!this.dbSave(['score'])) {
+                //    reject(new Error(`Failed to store score=${score} to database`));
+                //}
+                //resolve();
+            }
+        });
+    }
+
     getEmail() : string {
         return this.dbUser.email;
     }

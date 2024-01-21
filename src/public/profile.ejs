@@ -1,7 +1,14 @@
-<img id="profile-photo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/29599/eco-man-clipart-xl.png" width="100px" height="100px"/>
+<img id="profile-photo" src="<%= locals.photo %>" width="100px" height="100px"/>
+<%if (locals.is_current_user === true) { %>
+    <button class="btn btn-primary" onclick="changePhoto()">Change photo</button>
+<% } %>
 <div><h1><%= locals.username %></h1>
     <%if (locals.is_current_user !== true) { %>
     <span class="friend-adder"><small>+ Force make friend</small></span>
+    <% } %>
+    <%if (locals.is_current_user === true) { %>
+        <button class="btn btn-primary" onclick="changeUsername()">Change username</button>
+        <button class="btn btn-primary" onclick="changePassword()">Change password</button>
     <% } %>
 </div>
 <div class="progress-wrapper">
@@ -134,4 +141,62 @@
         });
         
     }
+
+    function changePhoto() {
+        let newPhoto = prompt("Enter new photo URL", "<%= locals.photo %>");
+        // Send request to server to change photo using jquery ajax and profile.ts /setphoto route
+        $.ajax({
+            url: "/umm/users/setphoto",
+            type: "POST",
+            data: {
+                photo: newPhoto
+            },
+            success: function (data) {
+                alert("Photo changed successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error changing photo! ${err}`);
+            }
+        });
+    }
+
+    function changeUsername() {
+        let newUsername = prompt("Enter new username", "<%= locals.username %>");
+        // Send request to server to change username using jquery ajax and profile.ts /setusername route
+        $.ajax({
+            url: "/umm/users/setusername",
+            type: "POST",
+            data: {
+                username: newUsername
+            },
+            success: function (data) {
+                alert("Username changed successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error changing username! ${err}`);
+            }
+        });
+    }
+
+    function changePassword() {
+        let newPassword = prompt("Enter new password", "<%= locals.password %>");
+        // Send request to server to change password using jquery ajax and profile.ts /setpassword route
+        $.ajax({
+            url: "/umm/users/setpassword",
+            type: "POST",
+            data: {
+                password: newPassword
+            },
+            success: function (data) {
+                alert("Password changed successfully!");
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(`Error changing password! ${err}`);
+            }
+        });
+    }
+
 </script>

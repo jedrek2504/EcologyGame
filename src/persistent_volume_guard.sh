@@ -15,7 +15,8 @@ if [ -d $PERSISTENT_VOL_LOCATION ]; then
             exit 1
         fi
     fi
-    #if [ ! -d /pers/usrfiles ]; then
+
+    #if [ ! -d $USRFILES_LOCATION ]; then
     #    echo "$SCRIPT_NICKNAME: No $USRFILES_LOCATION directory found. Creating it..."
     #    mkdir -p $USRFILES_LOCATION
     #    if [ $? -eq 0 ]; then

@@ -72,10 +72,12 @@ router.get('/profile/:id', async (req: any, res: any, next: any) => {
         res.locals.username="";
         res.locals.score=0;
         res.locals.email="";
+        res.locals.photo="";
         res.locals.is_forum_contributor=false;
         setOrFail(await user.getUsername(), "username", (value : any) => res.locals.username = value);
         setOrFail(await user.getScore(), "score", (value : any) => res.locals.score = value);
         setOrFail(await user.getEmail(), "email", (value : any) => res.locals.email = value);
+        setOrFail(await user.getPhoto(), "photo", (value : any) => res.locals.photo = value);
         setOrFail(await user.hasContributedToForum(), "is_forum_contributor", (value : any) => res.locals.is_forum_contributor = value);
 
         //Check if current user is the same as the profile user
@@ -100,6 +102,54 @@ router.post('/setemail', async (req: any, res: any, next: any) => {
             res.status(200).send({ success: `Email set successfully` });
         }).catch((err)=>{
             res.status(500).send({ error: `Error while setting email: ${err}` });
+        });
+        
+    }
+    else {
+        res.status(500).send({ error: `Error while reading user object` })
+    }
+});
+
+router.post('/setusername', async (req: any, res: any, next: any) => {
+    let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+    let user : User = User.getInstance(glfUser?.getId() as unknown as Number);
+    if (user) {
+        user.setUsername(req.body.username).then(()=>{
+            res.status(200).send({ success: `Username set successfully` });
+        }).catch((err : any)=>{
+            res.status(500).send({ error: `Error while setting username: ${err}` });
+        });
+        
+    }
+    else {
+        res.status(500).send({ error: `Error while reading user object` })
+    }
+});
+
+router.post('/setpassword', async (req: any, res: any, next: any) => {
+    let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+    let user : User = User.getInstance(glfUser?.getId() as unknown as Number);
+    if (user) {
+        user.setPassword(req.body.password).then(()=>{
+            res.status(200).send({ success: `Password set successfully` });
+        }).catch((err : any)=>{
+            res.status(500).send({ error: `Error while setting password: ${err}` });
+        });
+        
+    }
+    else {
+        res.status(500).send({ error: `Error while reading user object` })
+    }
+});
+
+router.post('/setphoto', async (req: any, res: any, next: any) => {
+    let glfUser : GameUser|LeaderboardUser|ForumUser|null = await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+    let user : User = User.getInstance(glfUser?.getId() as unknown as Number);
+    if (user) {
+        user.setPhoto(req.body.photo).then(()=>{
+            res.status(200).send({ success: `Photo set successfully` });
+        }).catch((err : any)=>{
+            res.status(500).send({ error: `Error while setting photo: ${err}` });
         });
         
     }

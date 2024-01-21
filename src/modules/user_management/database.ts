@@ -58,6 +58,11 @@ const Person = sequelize.define('Person', {
         allowNull: false,
         unique: true
     },
+    photo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/29599/eco-man-clipart-xl.png"
+    },
     is_forum_contributor: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
