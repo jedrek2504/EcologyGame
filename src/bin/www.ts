@@ -33,8 +33,8 @@ import app from '../app.js'
 import debug from 'debug'
 debug('src:server')
 ////var http = require('http');
-import http from 'http'
-//import https from 'https'
+//import http from 'http'
+import https from 'https'
 
 import fs from 'fs'
 
@@ -58,15 +58,15 @@ console.log(`APP.GET port=${app.get('port')}`);
  */
 
 //var server = http.createServer(app);
-//var privateKey = fs.readFileSync('/ecopers/privkey.pem', 'utf8');
-//var certificate = fs.readFileSync('/ecopers/cert.pem', 'utf8');
+var privateKey = fs.readFileSync('/ecopers/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('/ecopers/cert.pem', 'utf8');
 
 
-/*var server = https.createServer({
+var server = https.createServer({
   key: privateKey,
   cert: certificate
-}, app);*/
-var server = http.createServer(app);
+}, app);
+//var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
