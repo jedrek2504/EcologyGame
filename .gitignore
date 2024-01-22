@@ -4,3 +4,4 @@ src/bin/.env
 src/transpiled
 src/undefined
 .idea
+src/confidential

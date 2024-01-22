@@ -3,4 +3,40 @@
   <li><i>Good to see ya, <%= locals.username %>!</i></li>
   <!--<li>For now you can click here and visit the <a href="transfer-gui">transfer-gui</a></li>-->
 </ul>
+<p>One of the first thing you can do is subscribe to notifications</p>
+<button class="btn btn-primary" onclick="subscribeToNotifications()">Subscribe to notifications</button>
 
+<script type="text/javascript">
+  function subscribeToNotifications() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('public/js/service-worker.js')
+        .then(function(registration) {
+          return registration.pushManager.getSubscription()
+            .then(function(subscription) {
+              if (subscription) {
+                return subscription;
+              }
+              return registration.pushManager.subscribe({
+                userVisibleOnly: true
+              });
+            });
+        }).then(function(subscription) {
+          console.log('Registration successful, scope is:', registration.scope);
+          alert("Successfully subscribed to notifications! You won't regret it!");
+          console.log(subscription);
+          fetch('/subscribe', {
+            method: 'post',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+              subscription: subscription
+            }),
+          });
+        }).catch(function(error) {
+          console.log('Service worker registration failed, error:', error);
+          alert("Failed to subscribe to notifications! What a pity!");
+        });
+    }
+  }
+</script>
