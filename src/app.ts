@@ -29,6 +29,8 @@ import forum from "./modules/forum/routes/forum.js";
 import lbmUsers from './modules/leaderboard/routes/board.js';
 import gameCoreRouter from './modules/game_core/routes/gamerouter.js';
 
+import superRouter from './routes/superindex.js';
+
 var app = express();
 
 app.use(logger('dev'));
@@ -46,6 +48,7 @@ app.set('view engine', 'ejs');
 app.use('/public', express.static('public'));
 app.use('/favicon.ico', express.static('favicon.ico'));
 
+app.use('/', superRouter);
 app.use("/umm/users", ummUsers.router);
 
 //app.use(ummUsers.checkLogin);

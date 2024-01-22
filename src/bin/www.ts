@@ -34,6 +34,10 @@ import debug from 'debug'
 debug('src:server')
 ////var http = require('http');
 import http from 'http'
+//import https from 'https'
+
+import fs from 'fs'
+
 
 /**
  * Get port from environment and store in Express.
@@ -53,6 +57,15 @@ console.log(`APP.GET port=${app.get('port')}`);
  * Create HTTP server.
  */
 
+//var server = http.createServer(app);
+//var privateKey = fs.readFileSync('/ecopers/privkey.pem', 'utf8');
+//var certificate = fs.readFileSync('/ecopers/cert.pem', 'utf8');
+
+
+/*var server = https.createServer({
+  key: privateKey,
+  cert: certificate
+}, app);*/
 var server = http.createServer(app);
 
 /**
