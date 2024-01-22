@@ -6,11 +6,23 @@
 </head>
 <body>
 <!-- Forum post creation form -->
+<!-- Style with bootstrap -->
 <form action="/forum/post" method="post">
+    <div class="form-group">
+        <label for="name">Post Title</label>
+        <input type="text" class="form-control" id="name" name="title" placeholder="Enter post title">
+    </div>
+    <div class="form-group">
+        <label for="content">Post Content</label>
+        <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Post</button>
+</form>
+<!--<form action="/forum/post" method="post">
     <input type="text" name="title" placeholder="Title" required>
     <textarea name="content" placeholder="Content" required></textarea>
     <button type="submit">Create Post</button>
-</form>
+</form>-->
 <h1>Forum</h1>
 <% if (posts && posts.length > 0) { %>
 <ul>

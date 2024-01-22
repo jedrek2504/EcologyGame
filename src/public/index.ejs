@@ -3,13 +3,16 @@
   <li><i>Good to see ya, <%= locals.username %>!</i></li>
   <!--<li>For now you can click here and visit the <a href="transfer-gui">transfer-gui</a></li>-->
 </ul>
-<p>One of the first thing you can do is subscribe to notifications</p>
-<button class="btn btn-primary" onclick="subscribeToNotifications()">Subscribe to notifications</button>
+<p>One of the first things you can do is subscribe to notifications</p>
+<!--Blue button for subscribing-->
+<button class="btn btn-primary" onclick="subscribeToNotifications()">Subscribe this browser to notifications</button>
+<!--Red button for unsubscribing-->
+<button class="btn btn-danger" onclick="unsubscribeFromNotifications()">Unsubscribe all browsers from notifications</button>
 
 <script type="text/javascript">
   function subscribeToNotifications() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('public/js/service-worker.js')
+      /*navigator.serviceWorker.register('public/js/service-worker.js')
         .then(function(registration) {
           return registration.pushManager.getSubscription()
             .then(function(subscription) {
@@ -36,6 +39,133 @@
         }).catch(function(error) {
           console.log('Service worker registration failed, error:', error);
           alert("Failed to subscribe to notifications! What a pity!");
+        });*/
+      subscribtionBoilerplate();
+    }
+  }
+
+  function arrayBufferToString(buffer) {
+    return new Uint8Array(buffer).toString();
+  }
+
+  function arrayBufferToHex(buffer) {
+    return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
+  }
+
+  function arrayBufferToBase64(buffer) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(buffer)));
+  }
+
+  function subscribtionBoilerplate() {
+    /*this.onpush = (event) => {
+      console.log(event.data);
+      // From here we can write the data to IndexedDB, send it to any open
+      // windows, display a notification, etc.
+    };*/
+
+    navigator.serviceWorker
+      .register("public/js/service-worker.js")
+      .then((serviceWorkerRegistration) => {
+        serviceWorkerRegistration.pushManager.subscribe().then(
+          (pushSubscription) => {
+            console.log(pushSubscription.subscriptionId);
+            console.log(pushSubscription.endpoint);
+            
+            const endpoint = pushSubscription.endpoint;
+            const key = pushSubscription.getKey("p256dh");
+            const auth = pushSubscription.getKey("auth");
+
+            console.log(endpoint);
+            console.log(key);
+            console.log(auth);
+
+            window.key = key;
+            window.auth = auth;
+
+            fetch("/umm/notifications/subscribe", {
+              method: "post",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                endpoint: endpoint,
+                p256dh: arrayBufferToBase64(key),
+                auth: arrayBufferToBase64(auth),
+              })
+              /*success: function (data) {
+                console.log(data);
+                alert("Successfully subscribed to notifications! You won't regret it!");
+              },
+              error: function (err) {
+                console.log(err);
+                alert("Error while subscribing to notifications: " + err);
+              }*/
+            }).then(async(response)=>{
+              let responseJSON = await response.json();
+              console.log(responseJSON);
+              if (responseJSON.error) {
+                alert(`Error while subscribing to notifications: ${responseJSON.error}`);
+              }
+              else {
+                alert("Successfully subscribed to notifications! You won't regret it!");
+              }
+            }).catch((err)=>{
+              console.log(err);
+              alert("Error while subscribing to notifications: " + err);
+            });
+
+          },
+          (error) => {
+            // During development it often helps to log errors to the
+            // console. In a production environment it might make sense to
+            // also report information about errors back to the
+            // application server.
+            console.error(error);
+          },
+        );
+    });
+    
+  }
+
+  function unsubscribeFromNotifications() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('public/js/service-worker.js')
+        .then(function(registration) {
+          return registration.pushManager.getSubscription()
+            .then(function(subscription) {
+              if (!subscription) {
+                return;
+              }
+              return subscription.unsubscribe()
+                .then(function() {
+                  fetch('/umm/notifications/unsubscribe', {
+                    method: 'post',
+                    headers: {
+                      'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      subscription: subscription
+                    }),
+                  }).then(async(response) => {
+                    let responseJSON = await response.json();
+                    if (responseJSON.error) {
+                      console.log(responseJSON.error);
+                      alert(`Error while unsubscribing from notifications: ${responseJSON.error}`);
+                    }
+                    else {
+                      alert("Successfully unsubscribed all devices from notifications! You will regret it!");
+                    }
+                  }).catch(async (error) => {
+                    console.log('Error unsubscribing', error);
+                    alert("Failed to unsubscribe from notifications! What a pity!");
+                  })
+                });
+            });
+        }).then(() => {
+          alert("Successfully unsubscribed from notifications! You won't regret it!");
+        }).catch((error) => {
+          console.log('Error unsubscribing', error);
+          alert("Failed to unsubscribe from notifications! What a pity!");
         });
     }
   }

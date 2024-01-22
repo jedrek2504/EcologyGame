@@ -73,7 +73,13 @@ class ForumModule {
         }
     }
 
-    public sendNotification(user: ForumUser, message: string): boolean {
+    /**
+     * @note This method is asynchronous => it returns a promise
+     * @param user 
+     * @param message 
+     * @returns Promise that resolves when the notification has been sent
+     */
+    public async sendNotification(user: ForumUser, message: string) {
         const notification = new UserNotification();
         notification.setTitle("Forum Notification");
         notification.setMessage(message);

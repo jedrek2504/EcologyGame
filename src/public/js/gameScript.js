@@ -9,6 +9,26 @@
           const score = data.roundedScore;
           const username = data.username;
           updateProgressBar(score);
+
+          if (score >= 100) {
+            console.log("WIN");
+            // Send a POST request to /checkout
+            $.ajax({
+              url: '/checkout',
+              method: 'POST',
+              contentType: 'application/json', // Set content type to JSON
+              dataType: 'json',
+              success: function (response) {
+                console.log('POST request successful:', response);
+              },
+              error: function (xhr, status, error) {
+                // Handle error
+                console.error('Error sending POST request:', error);
+              }
+            });
+          }
+
+
           $('#score').text('Score: ' + score);
           $('#username').text('Username: ' + username);
         },

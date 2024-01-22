@@ -149,6 +149,35 @@ const ForumPost = sequelize.define("ForumPost", {
 
 });
 
+const UserNotifierInfo = sequelize.define("UserNotifierInfo", {
+    user_notification_info_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Person,
+            key: "user_id"
+        }
+    },
+    endpoint: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    p256dh: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    auth: { // authSecret
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+});
+
 
 /* module.exports = {
     sequelize: sequelize,
@@ -164,4 +193,5 @@ export default {
     //name: name //hide/delete?
     Relationship: Relationship,
     ForumPost: ForumPost,
+    UserNotifierInfo: UserNotifierInfo
 };

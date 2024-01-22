@@ -7,6 +7,7 @@ import UMM from '../../user_management/exports/api.js'
 import { Challenge } from '../model/Challenge.js';
 import { DailyTask } from '../model/DailyTask.js';
 import { ChallengeStorage } from '../model/ChallengeStorage.js';
+import { UserNotification } from '../../user_management/model/UserNotification.js';
 
 
 var router = express.Router();
@@ -15,6 +16,17 @@ let userInstance: User;
 let gameBoard: GameBoard;
 let challengeStorage: ChallengeStorage;
 let previousSessionKey: string | null = null;
+
+function notifyUserAsReward(gameUser: GameUser) {
+  let notification = new UserNotification();
+  notification.setTitle("Wow!");
+  notification.setMessage("Congratulations! You have reached 100 points!");
+  UMM.IntermoduleCommons.IntermoduleNotificationManager.notifyUser(gameUser.getId(), notification).then(async()=>{
+        console.log(`Sent congratulations to ${await gameUser.getUsername()}(#${gameUser.getId()})`);
+  }).catch(async (error:any)=>{
+        console.log(`Failed to send congratulations to ${await gameUser.getUsername()}(#${gameUser.getId()}): ${error}`);
+  });
+}
 
 router.get('/game', function (req: any, res: any, next: any) {
   res.render('game.html', { title: 'Express' });
@@ -114,6 +126,26 @@ router.get('/reset', async function (req: any, res: any, next: any) {
       gameBoard.getTask(i).reset();
     }
     res.json({ roundedScore, username });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+/**
+ * @brief Check if user has 100 points and if so, send a notification to the user
+ */
+router.post('/checkout', async function (req: any, res: any, next: any) {
+  console.log("CHECKOUT");
+  // get user by session key
+  user = <GameUser>await UMM.IntermoduleCommons.IntermoduleUserManager.getUserBySessionKey(req.cookies["login_id"]);
+  try {
+    const [score] = await Promise.all([user.getScore()]);
+    if (score.valueOf() >= 100) {
+      notifyUserAsReward(user);
+    }
+    res.json({ score });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
