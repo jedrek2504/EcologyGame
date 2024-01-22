@@ -6,7 +6,7 @@ services:
       args:
         expose_port: ${ECOSERVER_IN_PORT}
 
-    image: ecocloud.azurecr.io/ecogame-cloud
+    image: ecologycloud.azurecr.io/ecogame-cloud
     domainname: eco-greengame
     #environment:
     #  DB_SCHEMA: postgres
@@ -24,8 +24,8 @@ services:
         
 volumes:
   eco-db:
-    #driver: azure_file
-    #driver_opts:
-    #  share_name: ecoacishare
-    #  storage_account_name: ecovolumesstorage1
+    driver: azure_file
+    driver_opts:
+      share_name: ecoacishare
+      storage_account_name: ecovolumesstorage1
 
